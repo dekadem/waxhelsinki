@@ -121,7 +121,7 @@ const MIXES = [
     duration: "1:12:58",
     description: "Driving late-night techno house with rolling drums and hypnotic bass by Elmo.",
     audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/6.mp3",
-    artUrl: "./imgs/555446498_24584077781202650_4163158375106445514_n.jpg",
+    artUrl: "./cover.jpg",
     artAlt: "Mix 006 artwork",
   },
   {
