@@ -34,6 +34,11 @@ function sanitizeMixId(value) {
   return encodeURIComponent(id);
 }
 
+function parseMixIdFromPath(pathname) {
+  const match = String(pathname || "").match(/\/(mix-\d+)\.html$/i);
+  return match ? match[1].toLowerCase() : "";
+}
+
 function mixCardHtml(mix, fetchPriority) {
   const safeId = sanitizeMixId(mix.id) || "mix";
   const safeHref = `./${safeId}.html`;
@@ -240,13 +245,12 @@ async function renderHome() {
   }
 }
 
-function renderMixPage() {
+function renderMixPageById(mixId) {
   const root = document.getElementById("mix-page");
-  if (!root) return;
+  if (!root || !mixId) return false;
 
-  const mixId = root.dataset.mixId;
   const mix = MIXES.find((item) => item.id === mixId);
-  if (!mix) return;
+  if (!mix) return false;
 
   document.getElementById("mix-title").textContent = mix.title;
   document.getElementById("mix-duration").textContent = mix.duration;
@@ -282,7 +286,98 @@ function renderMixPage() {
       audioEl.load();
     });
   }
+  return true;
+}
+
+function setShellVisibility(showMixPage) {
+  const hero = document.querySelector(".hero");
+  const mixes = document.getElementById("mixes");
+  const shell = document.getElementById("mix-page-shell");
+  if (!shell) return;
+
+  shell.hidden = !showMixPage;
+  if (hero) hero.hidden = showMixPage;
+  if (mixes) mixes.hidden = showMixPage;
+}
+
+function applyRoute(pathname, replaceState) {
+  const mixId = parseMixIdFromPath(pathname);
+  if (mixId) {
+    const ok = renderMixPageById(mixId);
+    if (!ok) {
+      setShellVisibility(false);
+      document.title = "Not found | wax helsinki";
+      if (replaceState) {
+        history.replaceState({}, "", "./index.html");
+      } else {
+        history.pushState({}, "", "./index.html");
+      }
+      return true;
+    }
+    setShellVisibility(true);
+    const mix = MIXES.find((item) => item.id === mixId);
+    if (mix) {
+      document.title = `${mix.title} | wax helsinki`;
+    }
+    const normalized = `./${mixId}.html`;
+    if (replaceState) {
+      history.replaceState({ mixId }, "", normalized);
+    } else {
+      history.pushState({ mixId }, "", normalized);
+    }
+    return true;
+  }
+
+  setShellVisibility(false);
+  document.title = "WAX HELSINKI | Sonic Brutalism";
+  const isHomePath = /\/(?:index\.html)?$/i.test(pathname);
+  const currentIsHomePath = /\/(?:index\.html)?$/i.test(location.pathname);
+  if (isHomePath && !currentIsHomePath) {
+    if (replaceState) {
+      history.replaceState({}, "", "./index.html");
+    } else {
+      history.pushState({}, "", "./index.html");
+    }
+  } else if (replaceState && !currentIsHomePath) {
+    history.replaceState({}, "", "./index.html");
+  }
+  return true;
+}
+
+function handleSpaNavigation() {
+  const hasSpaShell = Boolean(document.getElementById("mix-page-shell"));
+  if (!hasSpaShell) return;
+
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a[href]");
+    if (!link) return;
+    if (link.target === "_blank" || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const href = link.getAttribute("href") || "";
+    if (!href || href.startsWith("#")) return;
+    if (/^https?:\/\//i.test(href)) return;
+
+    const url = new URL(href, location.href);
+    const sameOrigin = url.origin === location.origin;
+    if (!sameOrigin) return;
+    const isMix = /\/mix-\d+\.html$/i.test(url.pathname);
+    const isHome = /\/(?:index\.html)?$/i.test(url.pathname);
+    if (!isMix && !isHome) return;
+
+    event.preventDefault();
+    applyRoute(url.pathname, false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  window.addEventListener("popstate", () => {
+    applyRoute(location.pathname, true);
+  });
 }
 
 void renderHome().catch(() => {});
-renderMixPage();
+handleSpaNavigation();
+const root = document.getElementById("mix-page");
+if (root && root.dataset.mixId) {
+  renderMixPageById(root.dataset.mixId);
+} else {
+  applyRoute(location.pathname, true);
+}
