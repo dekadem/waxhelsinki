@@ -23,7 +23,87 @@
     <itunes:image href="https://waxhelsinki.pages.dev/cover.jpg" />
 
     <item>
-      <title>Mix 011</title>
+      <title>WAXMIX 016</title>
+      <description>Elmo at Loop with a stripped-back minimal house flow and late-night groove tension.</description>
+      <pubDate>Fri, 10 Apr 2026 12:37:21 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-016</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/dj-set-2008-11-11.mp3"
+        length="102323809"
+        type="audio/mpeg" />
+      <itunes:duration>1:11:03</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Elmo at Loop with a stripped-back minimal house flow and late-night groove tension.</itunes:summary>
+    </item>
+
+    <item>
+      <title>WAXMIX 015</title>
+      <description>Elmo live at Bar Loop: a warm, deep house ride with late-night swing.</description>
+      <pubDate>Fri, 10 Apr 2026 12:32:06 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-015</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/bar-loop-2008-06-11-pt-1-2.mp3"
+        length="61712861"
+        type="audio/mpeg" />
+      <itunes:duration>42:51</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Elmo live at Bar Loop: a warm, deep house ride with late-night swing.</itunes:summary>
+    </item>
+
+    <item>
+      <title>WAXMIX 014</title>
+      <description>Elmo &amp; Konstantin live at Bar Loop.</description>
+      <pubDate>Fri, 10 Apr 2026 12:19:49 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-014</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/live-bar-loop-2008-06-11.mp3"
+        length="77191377"
+        type="audio/mpeg" />
+      <itunes:duration>53:36</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Elmo &amp; Konstantin live at Bar Loop.</itunes:summary>
+    </item>
+
+    <item>
+      <title>WAXMIX 013</title>
+      <description>Elmo &amp; Konstantin at Loop.</description>
+      <pubDate>Fri, 10 Apr 2026 11:46:02 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-013</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/dj-set-loop-2010-05-28.mp3"
+        length="95960921"
+        type="audio/mpeg" />
+      <itunes:duration>1:19:58</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Elmo &amp; Konstantin at Loop.</itunes:summary>
+    </item>
+
+    <item>
+      <title>WAXMIX 012</title>
+      <description>Elmo &amp; Konstantin at Loop: a chilled, late-night techno house drift.</description>
+      <pubDate>Fri, 10 Apr 2026 11:38:05 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-012</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/line-2009-11-06-loop.mp3"
+        length="113827106"
+        type="audio/mpeg" />
+      <itunes:duration>1:34:51</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Elmo &amp; Konstantin at Loop: a chilled, late-night techno house drift.</itunes:summary>
+    </item>
+
+    <item>
+      <title>WAXMIX 011</title>
       <description>At Beatroot by Elmo &amp; Konstantin: deep warehouse techno house session.</description>
       <pubDate>Fri, 10 Apr 2026 11:16:34 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-011</guid>
@@ -39,7 +119,7 @@
     </item>
 
     <item>
-      <title>Mix 010</title>
+      <title>WAXMIX 010</title>
       <description>Elmo &amp; Konstantin live at Beatroot: rolling techno house with raw club energy.</description>
       <pubDate>Fri, 10 Apr 2026 10:21:07 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-010</guid>
@@ -55,7 +135,7 @@
     </item>
 
     <item>
-      <title>Mix 009</title>
+      <title>WAXMIX 009</title>
       <description>Studio Mix p3 by Elmo &amp; Konstantin: punchy house rollers and deep techno flow.</description>
       <pubDate>Fri, 10 Apr 2026 10:10:15 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-009</guid>
@@ -71,7 +151,7 @@
     </item>
 
     <item>
-      <title>Mix 008</title>
+      <title>WAXMIX 008</title>
       <description>Studio Mix p2 by Elmo &amp; Konstantin: long-form techno house pressure and dubby textures.</description>
       <pubDate>Fri, 10 Apr 2026 10:09:15 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-008</guid>
@@ -87,7 +167,7 @@
     </item>
 
     <item>
-      <title>Mix 007</title>
+      <title>WAXMIX 007</title>
       <description>Studio Mix p1 by Elmo &amp; Konstantin: deep techno and house pressure.</description>
       <pubDate>Fri, 10 Apr 2026 09:59:10 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-007</guid>
@@ -103,7 +183,7 @@
     </item>
 
     <item>
-      <title>Mix 006</title>
+      <title>WAXMIX 006</title>
       <description>Driving late-night techno house with rolling drums and hypnotic bass by Elmo.</description>
       <pubDate>Fri, 10 Apr 2026 09:41:51 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-006</guid>
@@ -119,7 +199,7 @@
     </item>
 
     <item>
-      <title>Mix 005</title>
+      <title>WAXMIX 005</title>
       <description>Warm, groove-led house cuts with crisp techno edges and swing by Elmo.</description>
       <pubDate>Fri, 10 Apr 2026 09:39:46 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-005</guid>
@@ -135,7 +215,7 @@
     </item>
 
     <item>
-      <title>Mix 004</title>
+      <title>WAXMIX 004</title>
       <description>Long-form warehouse trip through deep techno and minimal house by Elmo &amp; Konstantin.</description>
       <pubDate>Fri, 10 Apr 2026 09:24:50 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-004</guid>
@@ -151,7 +231,7 @@
     </item>
 
     <item>
-      <title>Mix 003</title>
+      <title>WAXMIX 003</title>
       <description>Dark, percussive techno house journey with dubbed textures by Elmo &amp; Konstantin.</description>
       <pubDate>Fri, 10 Apr 2026 09:15:54 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-003</guid>
@@ -167,7 +247,7 @@
     </item>
 
     <item>
-      <title>Mix 002</title>
+      <title>WAXMIX 002</title>
       <description>Hypnotic techno house blend with soulful chords and heads-down energy by Elmo &amp; Konstantin.</description>
       <pubDate>Fri, 10 Apr 2026 08:20:04 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-002</guid>
@@ -183,7 +263,7 @@
     </item>
 
     <item>
-      <title>Mix 001</title>
+      <title>WAXMIX 001</title>
       <description>Foundational Wax Helsinki set: classic house rhythms and raw techno pulse by Elmo.</description>
       <pubDate>Fri, 10 Apr 2026 07:49:47 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-001</guid>
