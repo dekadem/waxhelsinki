@@ -74,7 +74,7 @@ const MIXES = [
     id: "mix-011",
     title: "Mix 011",
     duration: "2:04:52",
-    description: "At Beatroot 2008-11-15 by Elmo & Konstantin: deep warehouse techno house session.",
+    description: "At Beatroot by Elmo & Konstantin: deep warehouse techno house session.",
     audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/at-beatroot-2008-11-15.mp3",
     artUrl: "./konstantin_elmo.jpeg",
     artAlt: "Mix 011 artwork featuring Konstantin and Elmo",
