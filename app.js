@@ -80,6 +80,15 @@ function mixCardHtml(mix, fetchPriority) {
 
 const MIXES = [
   {
+    id: "mix-017",
+    title: "WAXMIX 017",
+    duration: "1:15:03",
+    description: "Elmo house vibes: warm grooves, rolling basslines, and late-night floor energy.",
+    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/stelmo-2008-10-11.mp3",
+    artUrl: "./imgs/556023385_24590412430569185_3278474231309641193_n.jpg",
+    artAlt: "WAXMIX 017 artwork",
+  },
+  {
     id: "mix-016",
     title: "WAXMIX 016",
     duration: "1:11:03",

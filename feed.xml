@@ -23,6 +23,22 @@
     <itunes:image href="https://waxhelsinki.pages.dev/cover.jpg" />
 
     <item>
+      <title>WAXMIX 017</title>
+      <description>Elmo house vibes: warm grooves, rolling basslines, and late-night floor energy.</description>
+      <pubDate>Fri, 10 Apr 2026 14:27:36 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-017</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/stelmo-2008-10-11.mp3"
+        length="108106072"
+        type="audio/mpeg" />
+      <itunes:duration>1:15:03</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Elmo house vibes: warm grooves, rolling basslines, and late-night floor energy.</itunes:summary>
+    </item>
+
+    <item>
       <title>WAXMIX 016</title>
       <description>Elmo with a stripped-back minimal house flow and late-night groove tension.</description>
       <pubDate>Fri, 10 Apr 2026 12:37:21 GMT</pubDate>
