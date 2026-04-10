@@ -23,8 +23,88 @@
     <itunes:image href="https://waxhelsinki.pages.dev/cover.jpg" />
 
     <item>
+      <title>Mix 007</title>
+      <description>Studio Mix p1 by Elmo &amp; Konstantin: deep techno and house pressure.</description>
+      <pubDate>Fri, 10 Apr 2026 09:59:10 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-007</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p1.mp3"
+        length="229834743"
+        type="audio/mpeg" />
+      <itunes:duration>1:35:46</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Studio Mix p1 by Elmo &amp; Konstantin: deep techno and house pressure.</itunes:summary>
+    </item>
+
+    <item>
+      <title>Mix 006</title>
+      <description>Driving late-night techno house with rolling drums and hypnotic bass by Elmo.</description>
+      <pubDate>Fri, 10 Apr 2026 09:41:51 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-006</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/6.mp3"
+        length="87576642"
+        type="audio/mpeg" />
+      <itunes:duration>1:12:58</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Driving late-night techno house with rolling drums and hypnotic bass by Elmo.</itunes:summary>
+    </item>
+
+    <item>
+      <title>Mix 005</title>
+      <description>Warm, groove-led house cuts with crisp techno edges and swing by Elmo.</description>
+      <pubDate>Fri, 10 Apr 2026 09:39:46 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-005</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/5.mp3"
+        length="50315750"
+        type="audio/mpeg" />
+      <itunes:duration>52:24</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Warm, groove-led house cuts with crisp techno edges and swing by Elmo.</itunes:summary>
+    </item>
+
+    <item>
+      <title>Mix 004</title>
+      <description>Long-form warehouse trip through deep techno and minimal house by Elmo &amp; Konstantin.</description>
+      <pubDate>Fri, 10 Apr 2026 09:24:50 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-004</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/4.mp3"
+        length="194481666"
+        type="audio/mpeg" />
+      <itunes:duration>2:15:03</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Long-form warehouse trip through deep techno and minimal house by Elmo &amp; Konstantin.</itunes:summary>
+    </item>
+
+    <item>
+      <title>Mix 003</title>
+      <description>Dark, percussive techno house journey with dubbed textures by Elmo &amp; Konstantin.</description>
+      <pubDate>Fri, 10 Apr 2026 09:15:54 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-003</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/3.mp3"
+        length="324164996"
+        type="audio/mpeg" />
+      <itunes:duration>2:15:04</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Dark, percussive techno house journey with dubbed textures by Elmo &amp; Konstantin.</itunes:summary>
+    </item>
+
+    <item>
       <title>Mix 002</title>
-      <description>Second wax helsinki mix. by Elmo &amp; Konstantin.</description>
+      <description>Hypnotic techno house blend with soulful chords and heads-down energy by Elmo &amp; Konstantin.</description>
       <pubDate>Fri, 10 Apr 2026 08:20:04 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-002</guid>
       <enclosure
@@ -35,12 +115,12 @@
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:author>wax helsinki</itunes:author>
-      <itunes:summary>Second wax helsinki mix. by Elmo &amp; Konstantin.</itunes:summary>
+      <itunes:summary>Hypnotic techno house blend with soulful chords and heads-down energy by Elmo &amp; Konstantin.</itunes:summary>
     </item>
 
     <item>
       <title>Mix 001</title>
-      <description>First wax helsinki mix. by Elmo.</description>
+      <description>Foundational Wax Helsinki set: classic house rhythms and raw techno pulse by Elmo.</description>
       <pubDate>Fri, 10 Apr 2026 07:49:47 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-001</guid>
       <enclosure
@@ -51,7 +131,7 @@
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:author>wax helsinki</itunes:author>
-      <itunes:summary>First wax helsinki mix. by Elmo.</itunes:summary>
+      <itunes:summary>Foundational Wax Helsinki set: classic house rhythms and raw techno pulse by Elmo.</itunes:summary>
     </item>
   </channel>
 </rss>
