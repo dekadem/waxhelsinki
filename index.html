@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>wax helsinki</title>
+  <meta name="description" content="DJ mixes and sets from wax helsinki." />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0d0d0d;
+      color: #f5f5f5;
+    }
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 20px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 40px;
+      text-transform: lowercase;
+      letter-spacing: 0.02em;
+    }
+    p {
+      color: #c8c8c8;
+      line-height: 1.5;
+    }
+    .card {
+      margin-top: 28px;
+      padding: 20px;
+      border-radius: 12px;
+      background: #171717;
+      border: 1px solid #2d2d2d;
+    }
+    .cover {
+      width: 100%;
+      max-width: 420px;
+      display: block;
+      margin: 20px 0 8px;
+      border-radius: 12px;
+      border: 1px solid #2d2d2d;
+    }
+    .meta {
+      font-size: 14px;
+      color: #a8a8a8;
+      margin-bottom: 10px;
+    }
+    a {
+      color: #8dc3ff;
+    }
+    audio {
+      width: 100%;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>wax helsinki</h1>
+    <p>DJ mixes and sets.</p>
+    <img class="cover" src="./cover.jpg" alt="wax helsinki podcast cover art" />
+    <p>
+      Podcast feed:
+      <a href="./feed.xml">feed.xml</a>
+    </p>
+
+    <article class="card">
+      <h2>Mix 002</h2>
+      <div class="meta">48:51</div>
+      <p>Second wax helsinki mix.</p>
+      <audio controls preload="none">
+        <source src="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/2.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+    </article>
+
+    <article class="card">
+      <h2>Mix 001</h2>
+      <div class="meta">55:17</div>
+      <p>First wax helsinki mix.</p>
+      <audio controls preload="none">
+        <source src="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/1.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+    </article>
+  </main>
+</body>
+</html>
