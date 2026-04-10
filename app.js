@@ -80,6 +80,15 @@ function mixCardHtml(mix, fetchPriority) {
 
 const MIXES = [
   {
+    id: "mix-018",
+    title: "WAXMIX 018",
+    duration: "53:33",
+    description: "Chill-out summer blend by Elmo: laidback soul, mellow hiphop, and easy sunset grooves.",
+    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/letkee-kesa-2008-mix.mp3",
+    artUrl: "./cover.jpg",
+    artAlt: "WAXMIX 018 artwork",
+  },
+  {
     id: "mix-017",
     title: "WAXMIX 017",
     duration: "1:15:03",

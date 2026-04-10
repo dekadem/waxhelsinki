@@ -23,6 +23,22 @@
     <itunes:image href="https://waxhelsinki.pages.dev/cover.jpg" />
 
     <item>
+      <title>WAXMIX 018</title>
+      <description>Chill-out summer blend by Elmo: laidback soul, mellow hiphop, and easy sunset grooves.</description>
+      <pubDate>Fri, 10 Apr 2026 16:05:29 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-018</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/letkee-kesa-2008-mix.mp3"
+        length="51420052"
+        type="audio/mpeg" />
+      <itunes:duration>53:33</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Chill-out summer blend by Elmo: laidback soul, mellow hiphop, and easy sunset grooves.</itunes:summary>
+    </item>
+
+    <item>
       <title>WAXMIX 017</title>
       <description>Elmo house vibes: warm grooves, rolling basslines, and late-night floor energy.</description>
       <pubDate>Fri, 10 Apr 2026 14:27:36 GMT</pubDate>
