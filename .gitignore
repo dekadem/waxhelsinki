@@ -2,5 +2,6 @@
 dist/
 __pycache__/
 *.pyc
+.env
 *.mp3
 audiofiles/

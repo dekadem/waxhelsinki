@@ -23,6 +23,22 @@
     <itunes:image href="https://waxhelsinki.pages.dev/cover.jpg" />
 
     <item>
+      <title>Mix 011</title>
+      <description>At Beatroot 2008-11-15 by Elmo &amp; Konstantin: deep warehouse techno house session.</description>
+      <pubDate>Fri, 10 Apr 2026 11:16:34 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-011</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/at-beatroot-2008-11-15.mp3"
+        length="149849985"
+        type="audio/mpeg" />
+      <itunes:duration>2:04:52</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>At Beatroot 2008-11-15 by Elmo &amp; Konstantin: deep warehouse techno house session.</itunes:summary>
+    </item>
+
+    <item>
       <title>Mix 010</title>
       <description>Elmo &amp; Konstantin live at Beatroot: rolling techno house with raw club energy.</description>
       <pubDate>Fri, 10 Apr 2026 10:21:07 GMT</pubDate>

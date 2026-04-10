@@ -71,12 +71,21 @@ function mixCardHtml(mix, fetchPriority) {
 
 const MIXES = [
   {
+    id: "mix-011",
+    title: "Mix 011",
+    duration: "2:04:52",
+    description: "At Beatroot 2008-11-15 by Elmo & Konstantin: deep warehouse techno house session.",
+    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/at-beatroot-2008-11-15.mp3",
+    artUrl: "./konstantin_elmo.jpeg",
+    artAlt: "Mix 011 artwork featuring Konstantin and Elmo",
+  },
+  {
     id: "mix-010",
     title: "Mix 010",
     duration: "1:40:12",
     description: "Elmo & Konstantin live at Beatroot: rolling techno house with raw club energy.",
     audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/beatroot_2010-03-27.m4a",
-    artUrl: "./cover.jpg",
+    artUrl: "./imgs/556226484_24582068094736952_2929117247685238373_n.jpg",
     artAlt: "Mix 010 artwork",
   },
   {
@@ -85,7 +94,7 @@ const MIXES = [
     duration: "48:51",
     description: "Studio Mix p3 by Elmo & Konstantin: punchy house rollers and deep techno flow.",
     audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p3.mp3",
-    artUrl: "./cover.jpg",
+    artUrl: "./imgs/556023385_24590412430569185_3278474231309641193_n.jpg",
     artAlt: "Mix 009 artwork",
   },
   {
@@ -94,7 +103,7 @@ const MIXES = [
     duration: "2:15:04",
     description: "Studio Mix p2 by Elmo & Konstantin: long-form techno house pressure and dubby textures.",
     audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p2.mp3",
-    artUrl: "./cover.jpg",
+    artUrl: "./imgs/555641797_24591161667160928_6907699687191442456_n.jpg",
     artAlt: "Mix 008 artwork",
   },
   {
@@ -103,7 +112,7 @@ const MIXES = [
     duration: "1:35:46",
     description: "Studio Mix p1 by Elmo & Konstantin: deep techno and house pressure.",
     audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p1.mp3",
-    artUrl: "./cover.jpg",
+    artUrl: "./imgs/555535363_24590761573867604_4537699491397861058_n.jpg",
     artAlt: "Mix 007 artwork",
   },
   {
@@ -112,7 +121,7 @@ const MIXES = [
     duration: "1:12:58",
     description: "Driving late-night techno house with rolling drums and hypnotic bass by Elmo.",
     audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/6.mp3",
-    artUrl: "./cover.jpg",
+    artUrl: "./imgs/555446498_24584077781202650_4163158375106445514_n.jpg",
     artAlt: "Mix 006 artwork",
   },
   {
@@ -130,7 +139,7 @@ const MIXES = [
     duration: "2:15:03",
     description: "Long-form warehouse trip through deep techno and minimal house by Elmo & Konstantin.",
     audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/4.mp3",
-    artUrl: "./cover.jpg",
+    artUrl: "./imgs/553414165_24591188187158276_8482474541081609932_n.jpg",
     artAlt: "Mix 004 artwork",
   },
   {
@@ -139,7 +148,7 @@ const MIXES = [
     duration: "2:15:04",
     description: "Dark, percussive techno house journey with dubbed textures by Elmo & Konstantin.",
     audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/3.mp3",
-    artUrl: "./cover.jpg",
+    artUrl: "./imgs/553371180_24561622720114823_9073916947826008228_n.jpg",
     artAlt: "Mix 003 artwork",
   },
   {
@@ -157,7 +166,7 @@ const MIXES = [
     duration: "55:17",
     description: "Foundational Wax Helsinki set: classic house rhythms and raw techno pulse by Elmo.",
     audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/1.mp3",
-    artUrl: "./cover.jpg",
+    artUrl: "./imgs/514248286_24588114450798983_173266012237871663_n.jpg",
     artAlt: "Mix 001 artwork",
   },
 ];

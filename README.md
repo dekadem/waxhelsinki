@@ -31,3 +31,17 @@ What this does automatically:
 - Wrangler auth is already active (`npx wrangler@4.81.1 whoami`)
 - R2 bucket exists and is public: `waxhelsinki-audio`
 - `ffprobe`, `python3`, and `xmllint` installed
+
+## Manual R2 upload (minimal)
+
+1. Put credentials in `.env` and load them:
+
+```bash
+source .env
+```
+
+2. Upload audio to R2:
+
+```bash
+aws s3 cp "<local-file>.mp3" "s3://${R2_BUCKET}/<target-name>.mp3" --endpoint-url "${R2_ENDPOINT}" --content-type "audio/mpeg"
+```
