@@ -39,9 +39,13 @@ function parseMixIdFromPath(pathname) {
   return match ? match[1].toLowerCase() : "";
 }
 
+function getMixHref(mixId) {
+  return `./${sanitizeMixId(mixId)}.html`;
+}
+
 function mixCardHtml(mix, fetchPriority) {
   const safeId = sanitizeMixId(mix.id) || "mix";
-  const safeHref = `./${safeId}.html`;
+  const safeHref = getMixHref(safeId);
   const safeTitle = escapeHtml(mix.title);
   const safeDuration = escapeHtml(mix.duration);
   const safeDescription = escapeHtml(mix.description);
@@ -245,6 +249,59 @@ async function renderHome() {
   }
 }
 
+function renderMixPageNavigation(mixId) {
+  const root = document.getElementById("mix-page");
+  if (!root) return;
+
+  const currentIndex = MIXES.findIndex((item) => item.id === mixId);
+  if (currentIndex < 0) return;
+
+  const prevMix = MIXES[currentIndex + 1] || null;
+  const nextMix = MIXES[currentIndex - 1] || null;
+  const absoluteCurrentUrl = new URL(getMixHref(mixId), location.origin).toString();
+
+  const prevLink = prevMix
+    ? `<a href="${getMixHref(prevMix.id)}" style="color:#fde400;text-decoration:none;">Prev</a>`
+    : `<span style="opacity:.45;">Prev</span>`;
+  const nextLink = nextMix
+    ? `<a href="${getMixHref(nextMix.id)}" style="color:#fde400;text-decoration:none;">Next</a>`
+    : `<span style="opacity:.45;">Next</span>`;
+
+  const pageLinks = MIXES.map((item) => {
+    const href = getMixHref(item.id);
+    const active = item.id === mixId;
+    if (active) {
+      return `<span style="opacity:.8;">${escapeHtml(item.title)}</span>`;
+    }
+    return `<a href="${href}" style="color:#fde400;text-decoration:none;">${escapeHtml(item.title)}</a>`;
+  }).join(" · ");
+
+  let nav = root.querySelector('[data-mix-page-nav="true"]');
+  if (!nav) {
+    nav = document.createElement("div");
+    nav.setAttribute("data-mix-page-nav", "true");
+    nav.style.marginTop = "22px";
+    nav.style.paddingTop = "16px";
+    nav.style.borderTop = "1px solid rgba(253,228,0,.25)";
+    root.appendChild(nav);
+  }
+
+  nav.innerHTML = `
+    <div style="display:flex;gap:14px;align-items:center;font-family:'Space Grotesk',Arial,sans-serif;text-transform:uppercase;">
+      ${prevLink}
+      <span style="opacity:.45;">|</span>
+      ${nextLink}
+    </div>
+    <div style="margin-top:10px;font-size:12px;opacity:.8;">
+      <strong style="font-family:'Space Grotesk',Arial,sans-serif;text-transform:uppercase;">Pages below content:</strong>
+      <a href="${absoluteCurrentUrl}" style="color:#fde400;text-decoration:none;">${absoluteCurrentUrl}</a>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:1.5;">
+      ${pageLinks}
+    </div>
+  `;
+}
+
 function renderMixPageById(mixId) {
   const root = document.getElementById("mix-page");
   if (!root || !mixId) return false;
@@ -286,6 +343,7 @@ function renderMixPageById(mixId) {
       audioEl.load();
     });
   }
+  renderMixPageNavigation(mixId);
   return true;
 }
 
