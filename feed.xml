@@ -23,6 +23,54 @@
     <itunes:image href="https://waxhelsinki.pages.dev/cover.jpg" />
 
     <item>
+      <title>Mix 010</title>
+      <description>Elmo &amp; Konstantin live at Beatroot: rolling techno house with raw club energy.</description>
+      <pubDate>Fri, 10 Apr 2026 10:21:07 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-010</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/beatroot_2010-03-27.m4a"
+        length="197827416"
+        type="audio/mp4" />
+      <itunes:duration>1:40:12</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Elmo &amp; Konstantin live at Beatroot: rolling techno house with raw club energy.</itunes:summary>
+    </item>
+
+    <item>
+      <title>Mix 009</title>
+      <description>Studio Mix p3 by Elmo &amp; Konstantin: punchy house rollers and deep techno flow.</description>
+      <pubDate>Fri, 10 Apr 2026 10:10:15 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-009</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p3.mp3"
+        length="117264751"
+        type="audio/mpeg" />
+      <itunes:duration>48:51</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Studio Mix p3 by Elmo &amp; Konstantin: punchy house rollers and deep techno flow.</itunes:summary>
+    </item>
+
+    <item>
+      <title>Mix 008</title>
+      <description>Studio Mix p2 by Elmo &amp; Konstantin: long-form techno house pressure and dubby textures.</description>
+      <pubDate>Fri, 10 Apr 2026 10:09:15 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-008</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p2.mp3"
+        length="324164996"
+        type="audio/mpeg" />
+      <itunes:duration>2:15:04</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Studio Mix p2 by Elmo &amp; Konstantin: long-form techno house pressure and dubby textures.</itunes:summary>
+    </item>
+
+    <item>
       <title>Mix 007</title>
       <description>Studio Mix p1 by Elmo &amp; Konstantin: deep techno and house pressure.</description>
       <pubDate>Fri, 10 Apr 2026 09:59:10 GMT</pubDate>

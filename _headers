@@ -1,0 +1,27 @@
+# Cloudflare Pages: https://developers.cloudflare.com/pages/configuration/headers/
+# Do not add Cache-Control on /* — overlapping rules merge headers and break Cache-Control.
+
+# RSS: keep TTL short so new episodes surface for podcast apps (still CDN-friendly via SWR).
+/feed.xml
+  Cache-Control: public, max-age=600, stale-while-revalidate=3600
+
+# Document HTML: always revalidate so deploys and new episode cards show promptly.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Images: long browser cache; SWR allows fast loads while origins revalidate in the background.
+/*.jpg
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=31536000
+
+/*.jpeg
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=31536000
+
+/*.png
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=31536000
+
+# Single shared script (no content hash): keep browser TTL modest to avoid stale deploys.
+/app.js
+  Cache-Control: public, max-age=86400, stale-while-revalidate=2592000
