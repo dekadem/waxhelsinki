@@ -98,7 +98,7 @@ def add_index_card(
     )
 
     original = index_path.read_text(encoding="utf-8")
-    marker = '    <article class="card">'
+    marker = "<!-- EPISODE_CARDS_START -->"
     marker_index = original.find(marker)
     if marker_index == -1:
         raise RuntimeError("Could not find episode card insertion point in index.html")
@@ -106,7 +106,8 @@ def add_index_card(
     if audio_url in original:
         raise RuntimeError(f"Episode already exists in index.html for URL: {audio_url}")
 
-    updated = original[:marker_index] + article + original[marker_index:]
+    insertion_index = marker_index + len(marker)
+    updated = original[:insertion_index] + "\n" + article + original[insertion_index:]
     index_path.write_text(updated, encoding="utf-8")
 
 

@@ -24,7 +24,7 @@
 
     <item>
       <title>Mix 002</title>
-      <description>Second wax helsinki mix.</description>
+      <description>Second wax helsinki mix. by Elmo &amp; Konstantin.</description>
       <pubDate>Fri, 10 Apr 2026 08:20:04 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-002</guid>
       <enclosure
@@ -35,12 +35,12 @@
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:author>wax helsinki</itunes:author>
-      <itunes:summary>Second wax helsinki mix.</itunes:summary>
+      <itunes:summary>Second wax helsinki mix. by Elmo &amp; Konstantin.</itunes:summary>
     </item>
 
     <item>
       <title>Mix 001</title>
-      <description>First wax helsinki mix.</description>
+      <description>First wax helsinki mix. by Elmo.</description>
       <pubDate>Fri, 10 Apr 2026 07:49:47 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-001</guid>
       <enclosure
@@ -51,7 +51,7 @@
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:author>wax helsinki</itunes:author>
-      <itunes:summary>First wax helsinki mix.</itunes:summary>
+      <itunes:summary>First wax helsinki mix. by Elmo.</itunes:summary>
     </item>
   </channel>
 </rss>

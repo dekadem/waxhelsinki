@@ -3,88 +3,252 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>wax helsinki</title>
+  <title>WAX HELSINKI | Sonic Brutalism</title>
   <meta name="description" content="DJ mixes and sets from wax helsinki." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Space+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --yellow: #fde400;
+      --bg: #f6f6f6;
+      --text: #2f2f2f;
+      --black: #0e0e0e;
+      --muted: #686868;
+    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0d0d0d;
-      color: #f5f5f5;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Manrope, Arial, sans-serif;
+      padding-bottom: 96px;
     }
-    .wrap {
-      max-width: 760px;
+    h1, h2, h3, .label, .brand, .btn {
+      font-family: "Space Grotesk", Arial, sans-serif;
+      letter-spacing: -0.02em;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(246, 246, 246, 0.8);
+      backdrop-filter: blur(18px);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      font-weight: 800;
+      font-size: 28px;
+      text-transform: uppercase;
+    }
+    .hero {
+      min-height: 70vh;
+      display: grid;
+      align-content: center;
+      padding: 28px 20px 64px;
+      position: relative;
+      overflow: hidden;
+      background: var(--yellow);
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(56px, 14vw, 180px);
+      line-height: 0.88;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .hero p {
+      max-width: 720px;
+      font-size: clamp(18px, 2.7vw, 30px);
+      margin: 28px 0;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 14px 18px;
+      text-transform: uppercase;
+      font-weight: 700;
+      border: 0;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--black);
+      background: var(--bg);
+      font-size: 13px;
+    }
+    .btn.dark {
+      background: var(--black);
+      color: var(--bg);
+    }
+    .section-dark {
+      background: var(--black);
+      color: #fff;
+      padding: 72px 20px;
+    }
+    .section-wrap {
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 48px 20px;
     }
-    h1 {
-      margin: 0 0 8px;
-      font-size: 40px;
-      text-transform: lowercase;
-      letter-spacing: 0.02em;
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 44px;
+      flex-wrap: wrap;
     }
-    p {
-      color: #c8c8c8;
-      line-height: 1.5;
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 68px);
+      text-transform: uppercase;
+      font-weight: 800;
+      line-height: 0.95;
     }
-    .card {
-      margin-top: 28px;
-      padding: 20px;
-      border-radius: 12px;
-      background: #171717;
-      border: 1px solid #2d2d2d;
+    .mix-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 56px;
     }
-    .cover {
+    .mix-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .mix-art {
+      background: #161616;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+    }
+    .mix-art img {
       width: 100%;
-      max-width: 420px;
-      display: block;
-      margin: 20px 0 8px;
-      border-radius: 12px;
-      border: 1px solid #2d2d2d;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%) contrast(1.1);
     }
-    .meta {
-      font-size: 14px;
+    .mix-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+    }
+    .mix-meta h3 {
+      margin: 0;
+      font-size: clamp(36px, 5vw, 62px);
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: var(--yellow);
+    }
+    .mix-duration {
+      color: #d7d7d7;
+      font-family: "Space Grotesk", Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+    }
+    .mix-desc {
       color: #a8a8a8;
-      margin-bottom: 10px;
-    }
-    a {
-      color: #8dc3ff;
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.5;
     }
     audio {
       width: 100%;
-      margin-top: 12px;
+      height: 34px;
+      filter: grayscale(1) contrast(1.1);
+    }
+    .feed-strip {
+      padding: 44px 20px;
+      background: #ececec;
+      color: var(--black);
+    }
+    .feed-link {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--black);
+      font-weight: 800;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--yellow);
+      padding-bottom: 2px;
+    }
+    .player {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(246, 246, 246, 0.85);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid rgba(0, 0, 0, 0.12);
+      padding: 12px 20px;
+      z-index: 30;
+    }
+    .player-row {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      font-family: "Space Grotesk", Arial, sans-serif;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.08em;
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <h1>wax helsinki</h1>
-    <p>DJ mixes and sets.</p>
-    <img class="cover" src="./cover.jpg" alt="wax helsinki podcast cover art" />
-    <p>
-      Podcast feed:
-      <a href="./feed.xml">feed.xml</a>
-    </p>
+  <header class="topbar">
+    <div class="brand">WAX HELSINKI</div>
+    <div class="label">Sonic Brutalism</div>
+  </header>
 
-    <article class="card">
-      <h2>Mix 002</h2>
-      <div class="meta">48:51</div>
-      <p>Second wax helsinki mix.</p>
-      <audio controls preload="none">
-        <source src="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/2.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-    </article>
+  <section class="hero">
+    <h1>WAX<br />HELSINKI</h1>
+    <p>A curated sonic exploration of the Helsinki underground. Bi-weekly transmissions from the collective.</p>
+    <div class="hero-actions">
+      <a class="btn dark" href="#mixes">Play latest mix</a>
+      <a class="btn" href="./feed.xml">Open feed</a>
+    </div>
+  </section>
 
-    <article class="card">
-      <h2>Mix 001</h2>
-      <div class="meta">55:17</div>
-      <p>First wax helsinki mix.</p>
-      <audio controls preload="none">
-        <source src="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/1.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-    </article>
-  </main>
+  <section id="mixes" class="section-dark">
+    <div class="section-wrap">
+      <div class="section-head">
+        <h2>Recent Transmissions</h2>
+        <div class="label">Archive 2026</div>
+      </div>
+      <div id="mix-grid" class="mix-grid"></div>
+    </div>
+  </section>
+
+  <section class="feed-strip">
+    <div class="section-wrap">
+      <div class="label">Podcast feed</div>
+      <a class="feed-link" href="./feed.xml">waxhelsinki.pages.dev/feed.xml</a>
+    </div>
+  </section>
+
+  <footer class="feed-strip" style="background:#0e0e0e;color:#f6f6f6;">
+    <div class="section-wrap">
+      <div class="label">Connect</div>
+      <div style="display:flex;gap:18px;flex-wrap:wrap;">
+        <a class="feed-link" href="https://www.facebook.com/waxhelsinki" target="_blank" rel="noopener noreferrer" style="color:#f6f6f6;border-bottom-color:#fde400;">Facebook</a>
+        <a class="feed-link" href="https://elmosaukko.bandcamp.com" target="_blank" rel="noopener noreferrer" style="color:#f6f6f6;border-bottom-color:#fde400;">Bandcamp</a>
+        <a class="feed-link" href="mailto:dekadem@gmail.com" style="color:#f6f6f6;border-bottom-color:#fde400;">EMAIL</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="player">
+    <div class="player-row">
+      <span>Now playing: Mix 002</span>
+      <span>Wax Helsinki</span>
+    </div>
+  </div>
+  <script src="./app.js"></script>
 </body>
 </html>
