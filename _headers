@@ -22,6 +22,6 @@
 /*.png
   Cache-Control: public, max-age=2592000, stale-while-revalidate=31536000
 
-# Single shared script (no content hash): keep browser TTL modest to avoid stale deploys.
+# Single shared script (no content hash): always revalidate so episode list updates immediately.
 /app.js
-  Cache-Control: public, max-age=86400, stale-while-revalidate=2592000
+  Cache-Control: public, max-age=0, must-revalidate

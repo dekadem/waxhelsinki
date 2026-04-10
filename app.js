@@ -74,7 +74,7 @@ const MIXES = [
     id: "mix-016",
     title: "WAXMIX 016",
     duration: "1:11:03",
-    description: "Elmo at Loop with a stripped-back minimal house flow and late-night groove tension.",
+    description: "Elmo with a stripped-back minimal house flow and late-night groove tension.",
     audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/dj-set-2008-11-11.mp3",
     artUrl: "./imgs/555641797_24591161667160928_6907699687191442456_n.jpg",
     artAlt: "WAXMIX 016 artwork",
