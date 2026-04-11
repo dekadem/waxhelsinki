@@ -75,9 +75,6 @@ python3 "./scripts/publish_episode.py" \
 echo "-> Validating feed.xml"
 xmllint --noout "./feed.xml"
 
-echo "-> Generating mix pages"
-python3 "./scripts/build.py"
-
 echo "-> Deploying to Cloudflare Pages"
 ./deploy.sh
 

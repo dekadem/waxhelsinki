@@ -109,6 +109,8 @@ def add_mixes_json_entry(
         if m.get("audioUrl") == audio_url:
             raise RuntimeError(f"Episode already exists in mixes.json for URL: {audio_url}")
 
+    audio_type = "audio/mp4" if audio_url.lower().endswith(".m4a") else "audio/mpeg"
+
     entry = {
         "id": mix_id,
         "title": title,
@@ -117,6 +119,7 @@ def add_mixes_json_entry(
         "audioUrl": audio_url,
         "artUrl": art_url,
         "artAlt": f"{title} artwork",
+        "audioType": audio_type,
     }
     mixes.insert(0, entry)
     mixes_path.write_text(json.dumps(mixes, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
