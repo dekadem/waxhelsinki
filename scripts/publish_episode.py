@@ -23,6 +23,14 @@ def slugify(value: str) -> str:
     return cleaned or "episode"
 
 
+def derive_mix_id_from_title(title: str) -> str:
+    """Extract mix number from title like 'WAXMIX 025' and return 'mix-025'."""
+    match = re.search(r"\bmix\s+(\d+)\b", title, re.IGNORECASE)
+    if match:
+        return f"mix-{match.group(1)}"
+    return slugify(title)
+
+
 def seconds_to_itunes_duration(seconds: float) -> str:
     total = int(round(seconds))
     hours = total // 3600
@@ -123,7 +131,7 @@ def main():
     parser.add_argument("--guid-prefix", default="wax-helsinki")
     args = parser.parse_args()
 
-    mix_id = args.mix_id or slugify(args.title)
+    mix_id = args.mix_id or derive_mix_id_from_title(args.title)
     guid_base = slugify(args.title)
     utc_stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%d%H%M%S")
     guid = f"{args.guid_prefix}-{guid_base}-{utc_stamp}"

@@ -681,6 +681,9 @@ function handleSpaNavigation() {
 (async function init() {
   try {
     const res = await fetch("./mixes.json");
+    if (!res.ok) {
+      throw new Error(`Failed to load mixes.json: ${res.status} ${res.statusText}`);
+    }
     MIXES = await res.json();
   } catch { /* MIXES stays empty */ }
 
