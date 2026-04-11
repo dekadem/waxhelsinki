@@ -291,11 +291,39 @@ let globalPlayer = null;
 
 function throttle(fn, wait) {
   let lastCall = 0;
+  let timerId = null;
+  let lastArgs = null;
+  let lastThis = null;
+
+  function invoke(time) {
+    lastCall = time;
+    const args = lastArgs;
+    const context = lastThis;
+    lastArgs = null;
+    lastThis = null;
+    fn.apply(context, args);
+  }
+
   return function (...args) {
     const now = Date.now();
-    if (now - lastCall >= wait) {
-      lastCall = now;
-      fn.apply(this, args);
+    const remaining = wait - (now - lastCall);
+    lastArgs = args;
+    lastThis = this;
+
+    if (remaining <= 0 || remaining > wait) {
+      if (timerId) {
+        clearTimeout(timerId);
+        timerId = null;
+      }
+      invoke(now);
+      return;
+    }
+
+    if (!timerId) {
+      timerId = setTimeout(() => {
+        timerId = null;
+        invoke(Date.now());
+      }, remaining);
     }
   };
 }
@@ -305,6 +333,8 @@ function ensurePlayerStyles() {
   const style = document.createElement("style");
   style.id = "global-player-styles";
   style.textContent = `
+    :root { --player-reserved-height: 96px; }
+    body { padding-bottom: var(--player-reserved-height, 96px); }
     .play-mix-btn {
       width: max-content;
       border: 1px solid rgba(253, 228, 0, 0.5);
@@ -346,8 +376,12 @@ function ensurePlayerStyles() {
     .player .player-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .player .player-audio { max-width: 520px; width: 100%; }
     @media (max-width: 820px) {
+      :root { --player-reserved-height: 140px; }
       .player .player-row { flex-direction: column; align-items: stretch; gap: 10px; }
       .player .player-audio { max-width: none; }
+    }
+    @media (max-width: 480px) {
+      :root { --player-reserved-height: 156px; }
     }
   `;
   document.head.appendChild(style);
