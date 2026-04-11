@@ -430,7 +430,19 @@ function setShellVisibility(showMixPage) {
   if (mixes) mixes.hidden = showMixPage;
 }
 
+function scrollToMixTitle(behavior = "auto") {
+  const title = document.getElementById("mix-title");
+  if (!title) return;
+
+  const topbar = document.querySelector(".topbar");
+  const topbarOffset = topbar ? topbar.getBoundingClientRect().height : 0;
+  const spacing = 12;
+  const top = Math.max(window.scrollY + title.getBoundingClientRect().top - topbarOffset - spacing, 0);
+  window.scrollTo({ top, behavior });
+}
+
 function applyRoute(pathname, replaceState) {
+  const scrollBehavior = replaceState ? "auto" : "smooth";
   const mixId = parseMixIdFromPath(pathname);
   if (mixId) {
     const ok = renderMixPageById(mixId);
@@ -449,6 +461,7 @@ function applyRoute(pathname, replaceState) {
     if (mix) {
       document.title = `${mix.title} | wax helsinki`;
     }
+    scrollToMixTitle(scrollBehavior);
     const normalized = `./${mixId}.html`;
     if (replaceState) {
       history.replaceState({ mixId }, "", normalized);
@@ -460,6 +473,7 @@ function applyRoute(pathname, replaceState) {
 
   setShellVisibility(false);
   document.title = "WAX HELSINKI | Sonic Brutalism";
+  window.scrollTo({ top: 0, behavior: scrollBehavior });
   const isHomePath = /\/(?:index\.html)?$/i.test(pathname);
   const currentIsHomePath = /\/(?:index\.html)?$/i.test(location.pathname);
   if (isHomePath && !currentIsHomePath) {
@@ -495,7 +509,6 @@ function handleSpaNavigation() {
 
     event.preventDefault();
     applyRoute(url.pathname, false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
   window.addEventListener("popstate", () => {
