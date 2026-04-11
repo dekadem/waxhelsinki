@@ -342,8 +342,8 @@ function ensurePlayerStyles() {
   const style = document.createElement("style");
   style.id = "global-player-styles";
   style.textContent = `
-    :root { --player-reserved-height: 96px; }
-    body { padding-bottom: var(--player-reserved-height, 96px); }
+    :root { --player-reserved-height: 124px; }
+    body { padding-bottom: var(--player-reserved-height, 124px); }
     .play-mix-btn {
       width: max-content;
       border: 1px solid rgba(253, 228, 0, 0.5);
@@ -362,35 +362,134 @@ function ensurePlayerStyles() {
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(246, 246, 246, 0.85);
-      backdrop-filter: blur(14px);
-      border-top: 1px solid rgba(0, 0, 0, 0.12);
-      padding: 12px 20px;
+      background: #f7f7f7;
+      border-top: 1px solid rgba(0, 0, 0, 0.15);
+      padding: 14px 20px 18px;
       z-index: 30;
     }
     .player-row {
       max-width: 1120px;
       margin: 0 auto;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
+      align-items: flex-start;
+      gap: 18px;
       font-family: "Space Grotesk", Arial, sans-serif;
       text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: 0.08em;
+      font-size: 11px;
+      letter-spacing: 0.06em;
     }
-    .player .player-meta { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-    .player .player-label { opacity: 0.65; }
-    .player .player-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .player .player-audio { max-width: 520px; width: 100%; }
+    .player .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .player .player-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid #1b1b1b;
+      background: #f7f7f7;
+      color: #161616;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      font-size: 16px;
+      line-height: 1;
+    }
+    .player .player-btn.player-play {
+      width: 84px;
+      height: 84px;
+      background: #0f0f0f;
+      color: #fff;
+      border-color: #0f0f0f;
+      font-size: 36px;
+      margin-top: -6px;
+    }
+    .player .player-main {
+      min-width: 0;
+      flex: 1;
+      padding-top: 8px;
+    }
+    .player .player-topline {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .player .player-title {
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #141414;
+      font-size: clamp(13px, 1.75vw, 24px);
+      letter-spacing: 0.05em;
+    }
+    .player .player-time {
+      color: #7d7d7d;
+      font-size: clamp(12px, 1.5vw, 22px);
+      letter-spacing: 0.01em;
+      flex-shrink: 0;
+    }
+    .player .player-progress {
+      width: 100%;
+      margin-top: 10px;
+      height: 8px;
+      border: 0;
+      background: #d8d8d8;
+      padding: 0;
+      position: relative;
+      cursor: pointer;
+      display: block;
+      touch-action: none;
+    }
+    .player .player-progress-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      transform-origin: left center;
+      transform: scaleX(0);
+      background: #fde400;
+      pointer-events: none;
+    }
+    .player .player-audio {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
     @media (max-width: 820px) {
-      :root { --player-reserved-height: 140px; }
-      .player .player-row { flex-direction: column; align-items: stretch; gap: 10px; }
-      .player .player-audio { max-width: none; }
+      :root { --player-reserved-height: 152px; }
+      .player .player-btn.player-play {
+        width: 68px;
+        height: 68px;
+        font-size: 28px;
+        margin-top: 0;
+      }
+      .player .player-topline {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+      }
     }
     @media (max-width: 480px) {
-      :root { --player-reserved-height: 156px; }
+      :root { --player-reserved-height: 172px; }
+      .player { padding: 12px 14px 16px; }
+      .player .player-row { gap: 10px; }
+      .player .player-btn {
+        width: 34px;
+        height: 34px;
+      }
+      .player .player-btn.player-play {
+        width: 56px;
+        height: 56px;
+        font-size: 24px;
+      }
     }
   `;
   document.head.appendChild(style);
@@ -408,6 +507,24 @@ function getNextMixId(mixId) {
   const index = MIXES.findIndex((item) => item.id === mixId);
   if (index < 0 || index + 1 >= MIXES.length) return "";
   return MIXES[index + 1].id;
+}
+
+function getPreviousMixId(mixId) {
+  const index = MIXES.findIndex((item) => item.id === mixId);
+  if (index <= 0) return "";
+  return MIXES[index - 1].id;
+}
+
+function formatTime(totalSeconds) {
+  if (!Number.isFinite(totalSeconds) || totalSeconds < 0) return "0:00";
+  const rounded = Math.floor(totalSeconds);
+  const hours = Math.floor(rounded / 3600);
+  const minutes = Math.floor((rounded % 3600) / 60);
+  const seconds = rounded % 60;
+  if (hours > 0) {
+    return `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  }
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
 function readPlayerState() {
@@ -444,6 +561,26 @@ function writePlayerState() {
   }
 }
 
+function updatePlayerUi() {
+  if (!globalPlayer?.audio) return;
+  const { audio, playButton, progressFill, timeValue } = globalPlayer;
+  const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0;
+  const currentTime = Number.isFinite(audio.currentTime) && audio.currentTime > 0 ? audio.currentTime : 0;
+  const ratio = duration > 0 ? Math.min(currentTime / duration, 1) : 0;
+
+  if (playButton) {
+    const isPaused = audio.paused || audio.ended;
+    playButton.textContent = isPaused ? "▶" : "❚❚";
+    playButton.setAttribute("aria-label", isPaused ? "Play current mix" : "Pause current mix");
+  }
+  if (progressFill) {
+    progressFill.style.transform = `scaleX(${ratio})`;
+  }
+  if (timeValue) {
+    timeValue.textContent = `${formatTime(currentTime)} / ${duration > 0 ? formatTime(duration) : "--:--"}`;
+  }
+}
+
 function ensureGlobalPlayer() {
   ensurePlayerStyles();
   if (globalPlayer) return globalPlayer;
@@ -456,9 +593,19 @@ function ensureGlobalPlayer() {
     container.className = "player";
     container.innerHTML = `
       <div class="player-row">
-        <div class="player-meta">
-          <span class="player-label">Now playing</span>
-          <strong class="player-title">${defaultTitle}</strong>
+        <div class="player-controls" role="group" aria-label="Playback controls">
+          <button class="player-btn player-prev" type="button" aria-label="Play previous mix">|◀</button>
+          <button class="player-btn player-play" type="button" aria-label="Play current mix">▶</button>
+          <button class="player-btn player-next" type="button" aria-label="Play next mix">▶|</button>
+        </div>
+        <div class="player-main">
+          <div class="player-topline">
+            <strong class="player-title">Now playing: ${defaultTitle}</strong>
+            <span class="player-time">0:00 / --:--</span>
+          </div>
+          <button class="player-progress" type="button" aria-label="Seek playback position">
+            <span class="player-progress-fill"></span>
+          </button>
         </div>
         <audio class="player-audio" controls preload="none"></audio>
       </div>
@@ -467,13 +614,94 @@ function ensureGlobalPlayer() {
   }
   const title = container.querySelector(".player-title");
   const audio = container.querySelector(".player-audio");
+  const playButton = container.querySelector(".player-play");
+  const prevButton = container.querySelector(".player-prev");
+  const nextButton = container.querySelector(".player-next");
+  const progressButton = container.querySelector(".player-progress");
+  const progressFill = container.querySelector(".player-progress-fill");
+  const timeValue = container.querySelector(".player-time");
   const preselectedMixId = latestMix ? latestMix.id : "";
-  globalPlayer = { container, title, audio, currentMixId: preselectedMixId, pendingSeekHandler: null };
-  if (latestMix && title && title.textContent.trim().toLowerCase() === "select a mix") {
-    title.textContent = latestMix.title;
+  globalPlayer = {
+    container,
+    title,
+    audio,
+    playButton,
+    prevButton,
+    nextButton,
+    progressButton,
+    progressFill,
+    timeValue,
+    currentMixId: preselectedMixId,
+    pendingSeekHandler: null,
+  };
+  if (latestMix && title) {
+    title.textContent = `Now playing: ${latestMix.title}`;
   }
   if (latestMix && audio && !audio.src) {
     audio.src = sanitizeUrl(latestMix.audioUrl);
+  }
+
+  prevButton?.addEventListener("click", () => {
+    const previousMixId = getPreviousMixId(globalPlayer.currentMixId);
+    if (!previousMixId) return;
+    void playMixById(previousMixId, { autoplay: true, resetTime: true });
+  });
+  nextButton?.addEventListener("click", () => {
+    const nextMixId = getNextMixId(globalPlayer.currentMixId);
+    if (!nextMixId) return;
+    void playMixById(nextMixId, { autoplay: true, resetTime: true });
+  });
+  playButton?.addEventListener("click", async () => {
+    if (audio.paused || audio.ended) {
+      try {
+        await audio.play();
+      } catch {
+        // autoplay may be blocked without gesture
+      }
+    } else {
+      audio.pause();
+    }
+    updatePlayerUi();
+  });
+  if (progressButton) {
+    let isSeeking = false;
+
+    const seekToClientX = (clientX) => {
+      const duration = Number(audio.duration);
+      if (!Number.isFinite(duration) || duration <= 0) return;
+      const rect = progressButton.getBoundingClientRect();
+      const ratio = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
+      audio.currentTime = duration * ratio;
+      updatePlayerUi();
+    };
+
+    progressButton.addEventListener("pointerdown", (event) => {
+      isSeeking = true;
+      event.preventDefault();
+      progressButton.setPointerCapture(event.pointerId);
+      seekToClientX(event.clientX);
+    });
+
+    progressButton.addEventListener("pointermove", (event) => {
+      if (!isSeeking) return;
+      event.preventDefault();
+      seekToClientX(event.clientX);
+    });
+
+    const endSeeking = (event) => {
+      if (!isSeeking) return;
+      isSeeking = false;
+      event.preventDefault();
+      if (progressButton.hasPointerCapture(event.pointerId)) {
+        progressButton.releasePointerCapture(event.pointerId);
+      }
+      seekToClientX(event.clientX);
+      writePlayerState();
+      updatePlayerUi();
+    };
+
+    progressButton.addEventListener("pointerup", endSeeking);
+    progressButton.addEventListener("pointercancel", endSeeking);
   }
 
   audio.addEventListener("ended", () => {
@@ -481,10 +709,16 @@ function ensureGlobalPlayer() {
     if (!nextMixId) return;
     void playMixById(nextMixId, { autoplay: true, resetTime: true });
   });
+  audio.addEventListener("timeupdate", updatePlayerUi);
   audio.addEventListener("timeupdate", throttle(writePlayerState, 5000));
+  audio.addEventListener("pause", updatePlayerUi);
+  audio.addEventListener("play", updatePlayerUi);
+  audio.addEventListener("loadedmetadata", updatePlayerUi);
   audio.addEventListener("pause", writePlayerState);
   audio.addEventListener("play", writePlayerState);
   audio.addEventListener("loadedmetadata", writePlayerState);
+
+  updatePlayerUi();
 
   return globalPlayer;
 }
@@ -501,7 +735,7 @@ async function playMixById(mixId, options = {}) {
   const isNewTrack = player.currentMixId !== mix.id || player.audio.src !== new URL(sourceUrl, location.href).toString();
   if (isNewTrack) {
     player.currentMixId = mix.id;
-    player.title.textContent = mix.title;
+    player.title.textContent = `Now playing: ${mix.title}`;
     player.audio.src = sourceUrl;
     player.audio.load();
   }
@@ -528,6 +762,7 @@ async function playMixById(mixId, options = {}) {
       // autoplay may be blocked without gesture
     }
   }
+  updatePlayerUi();
 }
 
 function bindPlayButtons() {
