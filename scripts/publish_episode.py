@@ -136,6 +136,7 @@ def main():
     parser.add_argument("--duration-seconds", required=True, type=float)
     parser.add_argument("--pub-date-rfc2822", required=True)
     parser.add_argument("--mix-id", default=None, help="Mix ID (e.g. mix-025). Auto-derived from title if omitted.")
+    parser.add_argument("-a", "--art-url", default="./cover.jpg", help="Artwork URL to store in mixes.json.")
     parser.add_argument("--guid-prefix", default="wax-helsinki")
     args = parser.parse_args()
 
@@ -148,9 +149,10 @@ def main():
     mixes_path = pathlib.Path(args.mixes_json)
     feed_tmp = feed_path.with_suffix(feed_path.suffix + ".tmp")
     mixes_tmp = mixes_path.with_suffix(mixes_path.suffix + ".tmp")
+    mixes_backup = mixes_path.with_suffix(mixes_path.suffix + ".bak")
 
     try:
-        # Work on temporary copies first so originals are untouched unless both updates succeed.
+        # Work on temporary copies first.
         feed_tmp.write_text(feed_path.read_text(encoding="utf-8"), encoding="utf-8")
         mixes_tmp.write_text(mixes_path.read_text(encoding="utf-8"), encoding="utf-8")
 
@@ -161,6 +163,7 @@ def main():
             description=args.description,
             duration_display=seconds_to_itunes_duration(args.duration_seconds),
             audio_url=args.audio_url,
+            art_url=args.art_url,
         )
 
         add_feed_item(
@@ -174,13 +177,22 @@ def main():
             duration_seconds=args.duration_seconds,
         )
 
+        # Keep a backup so we can rollback mixes.json if replacing feed.xml fails.
+        mixes_backup.write_text(mixes_path.read_text(encoding="utf-8"), encoding="utf-8")
         mixes_tmp.replace(mixes_path)
-        feed_tmp.replace(feed_path)
+        try:
+            feed_tmp.replace(feed_path)
+        except Exception:
+            if mixes_backup.exists():
+                mixes_backup.replace(mixes_path)
+            raise
     finally:
         if mixes_tmp.exists():
             mixes_tmp.unlink()
         if feed_tmp.exists():
             feed_tmp.unlink()
+        if mixes_backup.exists():
+            mixes_backup.unlink()
 
 
 if __name__ == "__main__":

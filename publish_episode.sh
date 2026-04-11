@@ -3,7 +3,7 @@ set -euo pipefail
 
 if [ "$#" -lt 3 ]; then
   echo "Usage:"
-  echo "  ./publish_episode.sh <mp3-file> \"<episode-title>\" \"<episode-description>\""
+  echo "  ./publish_episode.sh <mp3-file> \"<episode-title>\" \"<episode-description>\" [art-url]"
   echo ""
   echo "Example:"
   echo "  ./publish_episode.sh 3.mp3 \"Mix 003\" \"Third wax helsinki mix.\""
@@ -13,6 +13,7 @@ fi
 MP3_FILE="$1"
 TITLE="$2"
 DESCRIPTION="$3"
+ART_URL="${4:-./cover.jpg}"
 
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT_DIR"
@@ -70,7 +71,8 @@ python3 "./scripts/publish_episode.py" \
   --audio-url "$AUDIO_URL" \
   --audio-length "$AUDIO_SIZE" \
   --duration-seconds "$AUDIO_DURATION_SECONDS" \
-  --pub-date-rfc2822 "$PUB_DATE"
+  --pub-date-rfc2822 "$PUB_DATE" \
+  --art-url "$ART_URL"
 
 echo "-> Validating feed.xml"
 xmllint --noout "./feed.xml"
