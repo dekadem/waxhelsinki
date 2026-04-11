@@ -433,6 +433,7 @@ function scrollToMixTitle(behavior = "auto") {
 }
 
 function applyRoute(pathname, replaceState) {
+  const scrollBehavior = replaceState ? "auto" : "smooth";
   const mixId = parseMixIdFromPath(pathname);
   if (mixId) {
     const ok = renderMixPageById(mixId);
@@ -451,7 +452,7 @@ function applyRoute(pathname, replaceState) {
     if (mix) {
       document.title = `${mix.title} | wax helsinki`;
     }
-    scrollToMixTitle(replaceState ? "auto" : "smooth");
+    scrollToMixTitle(scrollBehavior);
     const normalized = `./${mixId}.html`;
     if (replaceState) {
       history.replaceState({ mixId }, "", normalized);
@@ -463,7 +464,7 @@ function applyRoute(pathname, replaceState) {
 
   setShellVisibility(false);
   document.title = "WAX HELSINKI | Sonic Brutalism";
-  window.scrollTo({ top: 0, behavior: replaceState ? "auto" : "smooth" });
+  window.scrollTo({ top: 0, behavior: scrollBehavior });
   const isHomePath = /\/(?:index\.html)?$/i.test(pathname);
   const currentIsHomePath = /\/(?:index\.html)?$/i.test(location.pathname);
   if (isHomePath && !currentIsHomePath) {
