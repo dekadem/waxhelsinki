@@ -68,7 +68,7 @@ function mixCardHtml(mix, fetchPriority) {
           <span class="mix-duration">${safeDuration}</span>
         </div>
         <p class="mix-desc">${safeDescription}</p>
-        <button class="play-mix-btn" type="button" data-play-mix-id="${safeId}" aria-label="Play ${safeTitle}">
+        <button class="play-mix-btn" type="button" data-play-mix-id="${escapeHtml(mix.id)}" aria-label="Play ${safeTitle}">
           ▶ Play in player
         </button>
         <a class="feed-link" href="${safeHref}" style="width:max-content;">Open mix page</a>
@@ -289,6 +289,17 @@ const MIXES = [
 const PLAYER_STATE_KEY = "waxhelsinki-player-state-v1";
 let globalPlayer = null;
 
+function throttle(fn, wait) {
+  let lastCall = 0;
+  return function (...args) {
+    const now = Date.now();
+    if (now - lastCall >= wait) {
+      lastCall = now;
+      fn.apply(this, args);
+    }
+  };
+}
+
 function ensurePlayerStyles() {
   if (document.getElementById("global-player-styles")) return;
   const style = document.createElement("style");
@@ -381,9 +392,10 @@ function ensureGlobalPlayer() {
     if (!nextMixId) return;
     void playMixById(nextMixId, { autoplay: true, resetTime: true });
   });
-  audio.addEventListener("timeupdate", writePlayerState);
+  audio.addEventListener("timeupdate", throttle(writePlayerState, 5000));
   audio.addEventListener("pause", writePlayerState);
   audio.addEventListener("play", writePlayerState);
+  audio.addEventListener("loadedmetadata", writePlayerState);
 
   return globalPlayer;
 }
@@ -412,7 +424,6 @@ async function playMixById(mixId, options = {}) {
       // autoplay may be blocked without gesture
     }
   }
-  writePlayerState();
 }
 
 function bindPlayButtons() {
