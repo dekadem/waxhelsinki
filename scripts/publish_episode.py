@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
+"""Update mixes.json and feed.xml when publishing a new wax helsinki episode."""
+
 import argparse
 import datetime as dt
+import json
 import pathlib
 import re
 import xml.etree.ElementTree as ET
@@ -78,58 +81,55 @@ def add_feed_item(
     tree.write(feed_path, encoding="utf-8", xml_declaration=True)
 
 
-def add_index_card(
-    index_path: pathlib.Path,
+def add_mixes_json_entry(
+    mixes_path: pathlib.Path,
+    mix_id: str,
     title: str,
     description: str,
     duration_display: str,
     audio_url: str,
+    art_url: str = "./cover.jpg",
 ):
-    article = (
-        '    <article class="card">\n'
-        f"      <h2>{title}</h2>\n"
-        f"      <div class=\"meta\">{duration_display}</div>\n"
-        f"      <p>{description}</p>\n"
-        "      <audio controls preload=\"none\">\n"
-        f"        <source src=\"{audio_url}\" type=\"audio/mpeg\" />\n"
-        "        Your browser does not support the audio element.\n"
-        "      </audio>\n"
-        "    </article>\n\n"
-    )
+    mixes = json.loads(mixes_path.read_text(encoding="utf-8"))
 
-    original = index_path.read_text(encoding="utf-8")
-    marker = "<!-- EPISODE_CARDS_START -->"
-    marker_index = original.find(marker)
-    if marker_index == -1:
-        raise RuntimeError("Could not find episode card insertion point in index.html")
+    for m in mixes:
+        if m.get("audioUrl") == audio_url:
+            raise RuntimeError(f"Episode already exists in mixes.json for URL: {audio_url}")
 
-    if audio_url in original:
-        raise RuntimeError(f"Episode already exists in index.html for URL: {audio_url}")
-
-    insertion_index = marker_index + len(marker)
-    updated = original[:insertion_index] + "\n" + article + original[insertion_index:]
-    index_path.write_text(updated, encoding="utf-8")
+    entry = {
+        "id": mix_id,
+        "title": title,
+        "duration": duration_display,
+        "description": description,
+        "audioUrl": audio_url,
+        "artUrl": art_url,
+        "artAlt": f"{title} artwork",
+    }
+    mixes.insert(0, entry)
+    mixes_path.write_text(json.dumps(mixes, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Update wax helsinki feed + homepage for a new mix.")
+    parser = argparse.ArgumentParser(description="Update wax helsinki feed + mixes.json for a new mix.")
     parser.add_argument("--feed", required=True)
-    parser.add_argument("--index", required=True)
+    parser.add_argument("--mixes-json", required=True)
     parser.add_argument("--title", required=True)
     parser.add_argument("--description", required=True)
     parser.add_argument("--audio-url", required=True)
     parser.add_argument("--audio-length", required=True, type=int)
     parser.add_argument("--duration-seconds", required=True, type=float)
     parser.add_argument("--pub-date-rfc2822", required=True)
+    parser.add_argument("--mix-id", default=None, help="Mix ID (e.g. mix-025). Auto-derived from title if omitted.")
     parser.add_argument("--guid-prefix", default="wax-helsinki")
     args = parser.parse_args()
 
+    mix_id = args.mix_id or slugify(args.title)
     guid_base = slugify(args.title)
     utc_stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%d%H%M%S")
     guid = f"{args.guid_prefix}-{guid_base}-{utc_stamp}"
 
     feed_path = pathlib.Path(args.feed)
-    index_path = pathlib.Path(args.index)
+    mixes_path = pathlib.Path(args.mixes_json)
 
     add_feed_item(
         feed_path=feed_path,
@@ -142,8 +142,9 @@ def main():
         duration_seconds=args.duration_seconds,
     )
 
-    add_index_card(
-        index_path=index_path,
+    add_mixes_json_entry(
+        mixes_path=mixes_path,
+        mix_id=mix_id,
         title=args.title,
         description=args.description,
         duration_display=seconds_to_itunes_duration(args.duration_seconds),
