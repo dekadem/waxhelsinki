@@ -12,6 +12,7 @@ import xml.etree.ElementTree as ET
 ITUNES_NS = "http://www.itunes.com/dtds/podcast-1.0.dtd"
 ATOM_NS = "http://www.w3.org/2005/Atom"
 CONTENT_NS = "http://purl.org/rss/1.0/modules/content/"
+MIX_ID_RE = re.compile(r"^mix-\d{3}$")
 
 ET.register_namespace("itunes", ITUNES_NS)
 ET.register_namespace("atom", ATOM_NS)
@@ -26,12 +27,19 @@ def slugify(value: str) -> str:
 def derive_mix_id_from_title(title: str) -> str:
     """Extract mix number from title and normalize to mix-###."""
     match = re.search(r"(?:wax)?mix[\s_-]*(\d+)\b", title, re.IGNORECASE)
-    if match:
-        number = match.group(1)
-        if len(number) < 3:
-            number = number.zfill(3)
-        return f"mix-{number}"
-    return slugify(title)
+    if not match:
+        raise ValueError("Title must include a numeric mix ID (e.g. 'WAXMIX 025') or pass --mix-id mix-025.")
+    number_int = int(match.group(1))
+    if number_int > 999:
+        raise ValueError("Derived mix number exceeds 3 digits; pass --mix-id in mix-### format.")
+    return f"mix-{number_int:03d}"
+
+
+def validate_mix_id(value: str) -> str:
+    mix_id = value.strip().lower()
+    if not MIX_ID_RE.fullmatch(mix_id):
+        raise ValueError(f"Invalid mix ID '{value}'. Expected format: mix-### (e.g. mix-025).")
+    return mix_id
 
 
 def seconds_to_itunes_duration(seconds: float) -> str:
@@ -140,7 +148,10 @@ def main():
     parser.add_argument("--guid-prefix", default="wax-helsinki")
     args = parser.parse_args()
 
-    mix_id = args.mix_id or derive_mix_id_from_title(args.title)
+    try:
+        mix_id = validate_mix_id(args.mix_id) if args.mix_id else derive_mix_id_from_title(args.title)
+    except ValueError as exc:
+        parser.error(str(exc))
     guid_base = slugify(args.title)
     utc_stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%d%H%M%S")
     guid = f"{args.guid_prefix}-{guid_base}-{utc_stamp}"
