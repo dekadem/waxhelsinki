@@ -671,7 +671,8 @@ function applyRoute(pathname, replaceState) {
 
 function handleSpaNavigation() {
   const hasSpaShell = Boolean(document.getElementById("mix-page-shell"));
-  if (!hasSpaShell) return;
+  const hasStandaloneMixPage = !hasSpaShell && Boolean(document.getElementById("mix-page"));
+  if (!hasSpaShell && !hasStandaloneMixPage) return;
 
   document.addEventListener("click", (event) => {
     const link = event.target.closest("a[href]");
@@ -686,7 +687,12 @@ function handleSpaNavigation() {
     if (!sameOrigin) return;
     const isMix = /\/mix-\d+\.html$/i.test(url.pathname);
     const isHome = /\/(?:index\.html)?$/i.test(url.pathname);
-    if (!isMix && !isHome) return;
+    if (hasSpaShell) {
+      if (!isMix && !isHome) return;
+    } else if (!isMix) {
+      // On standalone mix pages, only intercept mix-to-mix links.
+      return;
+    }
 
     event.preventDefault();
     applyRoute(url.pathname, false);
