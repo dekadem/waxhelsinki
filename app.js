@@ -487,9 +487,18 @@ async function renderHome(errorMessage = "") {
   if (!grid) return;
   
   const staticLcpCard = grid.querySelector('[data-static-lcp]');
-  const startIndex = staticLcpCard ? 1 : 0;
+  let startIndex = 0;
   
-  if (!staticLcpCard) {
+  if (staticLcpCard) {
+    const staticMixId = staticLcpCard.querySelector('[data-play-mix-id]')?.getAttribute('data-play-mix-id') || '';
+    if (staticMixId && MIXES[0]?.id === staticMixId) {
+      startIndex = 1;
+    } else {
+      staticLcpCard.remove();
+    }
+  }
+  
+  if (!staticLcpCard || startIndex === 0) {
     grid.innerHTML = "";
   }
 
@@ -503,7 +512,7 @@ async function renderHome(errorMessage = "") {
   }
 
   for (let i = startIndex; i < MIXES.length; i++) {
-    const fetchPriority = i === 0 && !staticLcpCard ? "high" : "low";
+    const fetchPriority = i === 0 && startIndex === 0 ? "high" : "low";
     grid.insertAdjacentHTML("beforeend", mixCardHtml(MIXES[i], fetchPriority));
     if (i < MIXES.length - 1) await yieldToMain();
   }

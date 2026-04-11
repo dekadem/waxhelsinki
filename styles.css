@@ -181,6 +181,9 @@ h1, h2, h3, .label, .brand, .btn {
   background: var(--black);
   color: var(--bg);
 }
+.mix-page-body .topbar {
+  color: var(--text);
+}
 
 .mix-page-shell .wrap,
 .mix-page-body .wrap {
