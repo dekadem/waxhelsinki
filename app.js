@@ -463,6 +463,7 @@ function applyRoute(pathname, replaceState) {
 
   setShellVisibility(false);
   document.title = "WAX HELSINKI | Sonic Brutalism";
+  window.scrollTo({ top: 0, behavior: replaceState ? "auto" : "smooth" });
   const isHomePath = /\/(?:index\.html)?$/i.test(pathname);
   const currentIsHomePath = /\/(?:index\.html)?$/i.test(location.pathname);
   if (isHomePath && !currentIsHomePath) {
