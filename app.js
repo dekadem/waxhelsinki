@@ -43,6 +43,15 @@ function getMixHref(mixId) {
   return `./${sanitizeMixId(mixId)}.html`;
 }
 
+function isValidMix(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const requiredKeys = ["id", "title", "duration", "description", "audioUrl", "artUrl", "artAlt"];
+  for (const key of requiredKeys) {
+    if (typeof value[key] !== "string" || !value[key].trim()) return false;
+  }
+  return true;
+}
+
 function mixCardHtml(mix, fetchPriority) {
   const safeId = sanitizeMixId(mix.id) || "mix";
   const safeHref = getMixHref(safeId);
@@ -503,7 +512,7 @@ function renderMixPageNavigation(mixId) {
 
   const prevMix = MIXES[currentIndex + 1] || null;
   const nextMix = MIXES[currentIndex - 1] || null;
-  const absoluteCurrentUrl = new URL(getMixHref(mixId), location.origin).toString();
+  const absoluteCurrentUrl = new URL(getMixHref(mixId), location.href).toString();
 
   const prevLink = prevMix
     ? `<a href="${getMixHref(prevMix.id)}" class="mix-nav-link">Prev</a>`
@@ -515,7 +524,7 @@ function renderMixPageNavigation(mixId) {
   const pageLinks = MIXES.map((item) => {
     const href = getMixHref(item.id);
     if (item.id === mixId) {
-      return `<span class="active">${escapeHtml(item.title)}</span>`;
+      return `<span class="active" aria-current="page">${escapeHtml(item.title)}</span>`;
     }
     return `<a href="${href}">${escapeHtml(item.title)}</a>`;
   }).join(" · ");
@@ -698,8 +707,14 @@ function handleSpaNavigation() {
     if (!Array.isArray(parsed)) {
       throw new Error("mixes.json must contain an array");
     }
-    MIXES = parsed;
-    MIXES_LOAD_ERROR = "";
+    if (!parsed.every(isValidMix)) {
+      console.warn("mixes.json contains invalid items; expected complete mix objects.");
+      MIXES = [];
+      MIXES_LOAD_ERROR = "Unable to load mixes right now. Please refresh and try again.";
+    } else {
+      MIXES = parsed;
+      MIXES_LOAD_ERROR = "";
+    }
   } catch (error) {
     console.error("Unable to load mixes:", error);
     MIXES = [];
@@ -712,8 +727,9 @@ function handleSpaNavigation() {
   bindPlayButtons();
   restorePlayerState();
   const root = document.getElementById("mix-page");
-  if (root && root.dataset.mixId) {
-    renderMixPageById(root.dataset.mixId);
+  const rootMixId = root?.dataset.mixId ? String(root.dataset.mixId).trim() : "";
+  if (rootMixId && MIXES.find((item) => item.id === rootMixId)) {
+    renderMixPageById(rootMixId);
   } else {
     applyRoute(location.pathname, true);
   }
