@@ -52,6 +52,12 @@ def seconds_to_itunes_duration(seconds: float) -> str:
     return f"{minutes}:{secs:02d}"
 
 
+def infer_audio_type(audio_url: str) -> str:
+    if audio_url.lower().endswith(".m4a"):
+        return "audio/mp4"
+    return "audio/mpeg"
+
+
 def add_feed_item(
     feed_path: pathlib.Path,
     title: str,
@@ -61,6 +67,7 @@ def add_feed_item(
     audio_url: str,
     audio_length: int,
     duration_seconds: float,
+    audio_type: str = "audio/mpeg",
 ):
     tree = ET.parse(feed_path)
     root = tree.getroot()
@@ -83,7 +90,7 @@ def add_feed_item(
     enclosure = ET.SubElement(item, "enclosure")
     enclosure.set("url", audio_url)
     enclosure.set("length", str(audio_length))
-    enclosure.set("type", "audio/mpeg")
+    enclosure.set("type", audio_type)
     ET.SubElement(item, f"{{{ITUNES_NS}}}duration").text = seconds_to_itunes_duration(duration_seconds)
     ET.SubElement(item, f"{{{ITUNES_NS}}}explicit").text = "no"
     ET.SubElement(item, f"{{{ITUNES_NS}}}episodeType").text = "full"
@@ -117,7 +124,7 @@ def add_mixes_json_entry(
         if m.get("audioUrl") == audio_url:
             raise RuntimeError(f"Episode already exists in mixes.json for URL: {audio_url}")
 
-    audio_type = "audio/mp4" if audio_url.lower().endswith(".m4a") else "audio/mpeg"
+    audio_type = infer_audio_type(audio_url)
 
     entry = {
         "id": mix_id,
@@ -186,6 +193,7 @@ def main():
             audio_url=args.audio_url,
             audio_length=args.audio_length,
             duration_seconds=args.duration_seconds,
+            audio_type=infer_audio_type(args.audio_url),
         )
 
         # Keep a backup so we can rollback mixes.json if replacing feed.xml fails.

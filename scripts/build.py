@@ -69,9 +69,12 @@ def probe_local_image_size(art_src: str) -> tuple[str, str] | None:
         return None
     try:
         from PIL import Image
+    except ImportError:
+        return None
+    try:
         with Image.open(image_path) as img:
             return str(img.width), str(img.height)
-    except Exception:
+    except OSError:
         return None
 
 
