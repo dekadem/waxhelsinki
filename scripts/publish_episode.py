@@ -101,6 +101,8 @@ def add_mixes_json_entry(
     mixes = json.loads(mixes_path.read_text(encoding="utf-8"))
 
     for m in mixes:
+        if m.get("id") == mix_id:
+            raise RuntimeError(f"Episode already exists in mixes.json for ID: {mix_id}")
         if m.get("audioUrl") == audio_url:
             raise RuntimeError(f"Episode already exists in mixes.json for URL: {audio_url}")
 
