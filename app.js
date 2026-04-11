@@ -410,7 +410,17 @@ function readPlayerState() {
   try {
     const raw = sessionStorage.getItem(PLAYER_STATE_KEY);
     if (!raw) return null;
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return null;
+
+    const mixId = typeof parsed.mixId === "string" ? parsed.mixId.trim() : "";
+    const time = parsed.time;
+    const wasPlaying = parsed.wasPlaying;
+    if (!mixId) return null;
+    if (typeof time !== "number" || !Number.isFinite(time) || time < 0) return null;
+    if (typeof wasPlaying !== "boolean") return null;
+
+    return { mixId, time, wasPlaying };
   } catch {
     return null;
   }
@@ -520,7 +530,7 @@ function bindPlayButtons() {
 
 function restorePlayerState() {
   const saved = readPlayerState();
-  if (!saved?.mixId) return;
+  if (!saved) return;
   void playMixById(saved.mixId, {
     autoplay: saved.wasPlaying === true,
     startTime: Number(saved.time || 0),
