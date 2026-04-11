@@ -23,6 +23,22 @@
     <itunes:image href="https://waxhelsinki.pages.dev/cover.jpg" />
 
     <item>
+      <title>WAXMIX 024</title>
+      <description>Elmo studio part 1: deep, rolling house and minimal grooves for a long-form session.</description>
+      <pubDate>Sat, 11 Apr 2026 13:46:49 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-024</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-024.mp3"
+        length="194448717"
+        type="audio/mpeg" />
+      <itunes:duration>2:15:02</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Elmo studio part 1: deep, rolling house and minimal grooves for a long-form session.</itunes:summary>
+    </item>
+
+    <item>
       <title>WAXMIX 023</title>
       <description>Elmo solo mix: deep house and minimal grooves with warm bass and late-night flow.</description>
       <pubDate>Sat, 11 Apr 2026 09:18:25 GMT</pubDate>
