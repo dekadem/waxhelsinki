@@ -80,6 +80,15 @@ function mixCardHtml(mix, fetchPriority) {
 
 const MIXES = [
   {
+    id: "mix-023",
+    title: "WAXMIX 023",
+    duration: "57:47",
+    description: "Elmo solo mix: deep house and minimal grooves with warm bass and late-night flow.",
+    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-023.mp3",
+    artUrl: "./cover.jpg",
+    artAlt: "WAXMIX 023 artwork",
+  },
+  {
     id: "mix-022",
     title: "WAXMIX 022",
     duration: "1:23:00",
