@@ -57,25 +57,10 @@ def normalize_dimension(value) -> str | None:
 
 
 def probe_local_image_size(art_src: str) -> tuple[str, str] | None:
-    if art_src.startswith("http://") or art_src.startswith("https://"):
-        return None
-    if art_src.startswith("./"):
-        image_path = ROOT / art_src[2:]
-    elif art_src.startswith("/"):
-        image_path = ROOT / art_src[1:]
-    else:
-        image_path = ROOT / art_src
-    if not image_path.exists():
-        return None
-    try:
-        from PIL import Image
-    except ImportError:
-        return None
-    try:
-        with Image.open(image_path) as img:
-            return str(img.width), str(img.height)
-    except OSError:
-        return None
+    # Keep the build dependency-free: if dimensions are not explicitly provided
+    # in mixes.json, the caller falls back to DEFAULT_ART_WIDTH/HEIGHT.
+    _ = art_src
+    return None
 
 
 def build():
