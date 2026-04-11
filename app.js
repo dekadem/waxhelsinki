@@ -69,10 +69,9 @@ function mixCardHtml(mix, fetchPriority) {
           <span class="mix-duration">${safeDuration}</span>
         </div>
         <p class="mix-desc">${safeDescription}</p>
-        <audio controls preload="none">
-          <source src="${safeAudioUrl}" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
+        <button class="play-mix-btn" type="button" data-play-mix-id="${safeId}" aria-label="Play ${safeTitle}">
+          ▶ Play in player
+        </button>
         <a class="feed-link" href="${safeHref}" style="width:max-content;">Open mix page</a>
       </article>
     `;
@@ -288,6 +287,155 @@ const MIXES = [
   },
 ];
 
+const PLAYER_STATE_KEY = "waxhelsinki-player-state-v1";
+let globalPlayer = null;
+
+function ensurePlayerStyles() {
+  if (document.getElementById("global-player-styles")) return;
+  const style = document.createElement("style");
+  style.id = "global-player-styles";
+  style.textContent = `
+    .play-mix-btn {
+      width: max-content;
+      border: 1px solid rgba(253, 228, 0, 0.5);
+      color: #fde400;
+      background: transparent;
+      padding: 8px 12px;
+      text-transform: uppercase;
+      font-family: "Space Grotesk", Arial, sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+    }
+    .play-mix-btn:hover { border-color: #fde400; }
+    .player .player-meta { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .player .player-label { opacity: 0.65; }
+    .player .player-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .player .player-audio { max-width: 520px; width: 100%; }
+    @media (max-width: 820px) {
+      .player .player-row { flex-direction: column; align-items: stretch; gap: 10px; }
+      .player .player-audio { max-width: none; }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+function getMixById(mixId) {
+  return MIXES.find((item) => item.id === mixId) || null;
+}
+
+function getNextMixId(mixId) {
+  const index = MIXES.findIndex((item) => item.id === mixId);
+  if (index < 0 || index + 1 >= MIXES.length) return "";
+  return MIXES[index + 1].id;
+}
+
+function readPlayerState() {
+  try {
+    const raw = sessionStorage.getItem(PLAYER_STATE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function writePlayerState() {
+  if (!globalPlayer?.audio) return;
+  const state = {
+    mixId: globalPlayer.currentMixId || "",
+    time: Number(globalPlayer.audio.currentTime || 0),
+    wasPlaying: !globalPlayer.audio.paused && !globalPlayer.audio.ended,
+  };
+  try {
+    sessionStorage.setItem(PLAYER_STATE_KEY, JSON.stringify(state));
+  } catch {
+    // ignore storage failures
+  }
+}
+
+function ensureGlobalPlayer() {
+  ensurePlayerStyles();
+  if (globalPlayer) return globalPlayer;
+  let container = document.querySelector('[data-global-player="true"]');
+  if (!container) {
+    container = document.createElement("div");
+    container.setAttribute("data-global-player", "true");
+    container.className = "player";
+    container.innerHTML = `
+      <div class="player-row">
+        <div class="player-meta">
+          <span class="player-label">Now playing</span>
+          <strong class="player-title">Select a mix</strong>
+        </div>
+        <audio class="player-audio" controls preload="none"></audio>
+      </div>
+    `;
+    document.body.appendChild(container);
+  }
+  const title = container.querySelector(".player-title");
+  const audio = container.querySelector(".player-audio");
+  globalPlayer = { container, title, audio, currentMixId: "" };
+
+  audio.addEventListener("ended", () => {
+    const nextMixId = getNextMixId(globalPlayer.currentMixId);
+    if (!nextMixId) return;
+    void playMixById(nextMixId, { autoplay: true, resetTime: true });
+  });
+  audio.addEventListener("timeupdate", writePlayerState);
+  audio.addEventListener("pause", writePlayerState);
+  audio.addEventListener("play", writePlayerState);
+
+  return globalPlayer;
+}
+
+async function playMixById(mixId, options = {}) {
+  const player = ensureGlobalPlayer();
+  const mix = getMixById(mixId);
+  if (!mix || !player.audio) return;
+  const sourceUrl = sanitizeUrl(mix.audioUrl);
+  const isNewTrack = player.currentMixId !== mix.id || player.audio.src !== new URL(sourceUrl, location.href).toString();
+  if (isNewTrack) {
+    player.currentMixId = mix.id;
+    player.title.textContent = mix.title;
+    player.audio.src = sourceUrl;
+    player.audio.load();
+  }
+  if (options.resetTime) {
+    player.audio.currentTime = 0;
+  } else if (Number.isFinite(options.startTime) && options.startTime > 0) {
+    player.audio.currentTime = options.startTime;
+  }
+  if (options.autoplay !== false) {
+    try {
+      await player.audio.play();
+    } catch {
+      // autoplay may be blocked without gesture
+    }
+  }
+  writePlayerState();
+}
+
+function bindPlayButtons() {
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-play-mix-id]");
+    if (!button) return;
+    const mixId = button.getAttribute("data-play-mix-id");
+    if (!mixId) return;
+    event.preventDefault();
+    void playMixById(mixId, { autoplay: true, resetTime: true });
+  });
+}
+
+function restorePlayerState() {
+  const saved = readPlayerState();
+  if (!saved?.mixId) return;
+  void playMixById(saved.mixId, {
+    autoplay: saved.wasPlaying === true,
+    startTime: Number(saved.time || 0),
+  });
+}
+
 function yieldToMain() {
   return new Promise((resolve) => {
     if (typeof scheduler !== "undefined" && typeof scheduler.yield === "function") {
@@ -394,17 +542,26 @@ function renderMixPageById(mixId) {
     }
   }
   const audioEl = document.getElementById("mix-audio");
-  const source = document.getElementById("mix-audio-source");
-  if (audioEl && source) {
-    const url = sanitizeUrl(mix.audioUrl);
-    const runWhenIdle =
-      typeof requestIdleCallback === "function"
-        ? (cb) => requestIdleCallback(cb, { timeout: 2000 })
-        : (cb) => setTimeout(cb, 1);
-    runWhenIdle(() => {
-      source.src = url;
-      audioEl.load();
-    });
+  let playBtn = document.getElementById("mix-play-btn");
+  if (!playBtn && audioEl && audioEl.parentElement) {
+    playBtn = document.createElement("button");
+    playBtn.id = "mix-play-btn";
+    playBtn.className = "play-mix-btn";
+    playBtn.type = "button";
+    audioEl.insertAdjacentElement("beforebegin", playBtn);
+    audioEl.remove();
+  }
+  if (playBtn) {
+    if (!playBtn.parentElement && audioEl?.parentElement) {
+      playBtn = document.createElement("button");
+      playBtn.id = "mix-play-btn";
+      playBtn.className = "play-mix-btn";
+      playBtn.type = "button";
+      audioEl.insertAdjacentElement("beforebegin", playBtn);
+    }
+    playBtn.setAttribute("data-play-mix-id", mix.id);
+    playBtn.textContent = "▶ Play in player";
+    playBtn.setAttribute("aria-label", `Play ${mix.title}`);
   }
   renderMixPageNavigation(mixId);
   return true;
@@ -496,6 +653,9 @@ function handleSpaNavigation() {
 
 void renderHome().catch(() => {});
 handleSpaNavigation();
+ensureGlobalPlayer();
+bindPlayButtons();
+restorePlayerState();
 const root = document.getElementById("mix-page");
 if (root && root.dataset.mixId) {
   renderMixPageById(root.dataset.mixId);
