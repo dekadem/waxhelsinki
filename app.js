@@ -400,6 +400,10 @@ function getMixById(mixId) {
   return MIXES.find((item) => item.id === mixId) || null;
 }
 
+function getLatestMix() {
+  return MIXES[0] || null;
+}
+
 function getNextMixId(mixId) {
   const index = MIXES.findIndex((item) => item.id === mixId);
   if (index < 0 || index + 1 >= MIXES.length) return "";
@@ -443,6 +447,8 @@ function writePlayerState() {
 function ensureGlobalPlayer() {
   ensurePlayerStyles();
   if (globalPlayer) return globalPlayer;
+  const latestMix = getLatestMix();
+  const defaultTitle = latestMix ? escapeHtml(latestMix.title) : "Select a mix";
   let container = document.querySelector('[data-global-player="true"]');
   if (!container) {
     container = document.createElement("div");
@@ -452,7 +458,7 @@ function ensureGlobalPlayer() {
       <div class="player-row">
         <div class="player-meta">
           <span class="player-label">Now playing</span>
-          <strong class="player-title">Select a mix</strong>
+          <strong class="player-title">${defaultTitle}</strong>
         </div>
         <audio class="player-audio" controls preload="none"></audio>
       </div>
@@ -461,7 +467,14 @@ function ensureGlobalPlayer() {
   }
   const title = container.querySelector(".player-title");
   const audio = container.querySelector(".player-audio");
-  globalPlayer = { container, title, audio, currentMixId: "", pendingSeekHandler: null };
+  const preselectedMixId = latestMix ? latestMix.id : "";
+  globalPlayer = { container, title, audio, currentMixId: preselectedMixId, pendingSeekHandler: null };
+  if (latestMix && title && title.textContent.trim().toLowerCase() === "select a mix") {
+    title.textContent = latestMix.title;
+  }
+  if (latestMix && audio && !audio.src) {
+    audio.src = sanitizeUrl(latestMix.audioUrl);
+  }
 
   audio.addEventListener("ended", () => {
     const nextMixId = getNextMixId(globalPlayer.currentMixId);
@@ -520,8 +533,12 @@ async function playMixById(mixId, options = {}) {
 function bindPlayButtons() {
   document.addEventListener("click", (event) => {
     const button = event.target.closest("[data-play-mix-id]");
-    if (!button) return;
-    const mixId = button.getAttribute("data-play-mix-id");
+    const latestTrigger = event.target.closest("[data-play-latest='true']");
+    if (!button && !latestTrigger) return;
+    const mixId =
+      button?.getAttribute("data-play-mix-id") ||
+      getLatestMix()?.id ||
+      "";
     if (!mixId) return;
     event.preventDefault();
     void playMixById(mixId, { autoplay: true, resetTime: true });
