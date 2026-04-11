@@ -80,6 +80,24 @@ function mixCardHtml(mix, fetchPriority) {
 
 const MIXES = [
   {
+    id: "mix-021",
+    title: "WAXMIX 021",
+    duration: "2:07:39",
+    description: "Elmo & Konstantin live at WAX OFF party in Helsinki: raw, driving house pressure and late-night energy.",
+    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/wax-off-helsinki-2013.mp3",
+    artUrl: "./cover.jpg",
+    artAlt: "WAXMIX 021 artwork",
+  },
+  {
+    id: "mix-020",
+    title: "WAXMIX 020",
+    duration: "2:10:28",
+    description: "Extended minimal house set by Elmo: hypnotic loops, deep bass pressure, and steady late-night drive.",
+    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-020.mp3",
+    artUrl: "./cover.jpg",
+    artAlt: "WAXMIX 020 artwork",
+  },
+  {
     id: "mix-019",
     title: "WAXMIX 019",
     duration: "1:43:04",

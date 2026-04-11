@@ -23,6 +23,38 @@
     <itunes:image href="https://waxhelsinki.pages.dev/cover.jpg" />
 
     <item>
+      <title>WAXMIX 021</title>
+      <description>Elmo &amp; Konstantin live at WAX OFF party in Helsinki: raw, driving house pressure and late-night energy.</description>
+      <pubDate>Sat, 11 Apr 2026 08:50:44 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-021</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/wax-off-helsinki-2013.mp3"
+        length="183822732"
+        type="audio/mpeg" />
+      <itunes:duration>2:07:39</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Elmo &amp; Konstantin live at WAX OFF party in Helsinki: raw, driving house pressure and late-night energy.</itunes:summary>
+    </item>
+
+    <item>
+      <title>WAXMIX 020</title>
+      <description>Extended minimal house set by Elmo: hypnotic loops, deep bass pressure, and steady late-night drive.</description>
+      <pubDate>Sat, 11 Apr 2026 08:35:36 GMT</pubDate>
+      <guid isPermaLink="false">wax-helsinki-mix-020</guid>
+      <enclosure
+        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-020.mp3"
+        length="156571264"
+        type="audio/mpeg" />
+      <itunes:duration>2:10:28</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:author>wax helsinki</itunes:author>
+      <itunes:summary>Extended minimal house set by Elmo: hypnotic loops, deep bass pressure, and steady late-night drive.</itunes:summary>
+    </item>
+
+    <item>
       <title>WAXMIX 019</title>
       <description>Minimal house session by Elmo: tight grooves, rolling bass, and late-night club momentum.</description>
       <pubDate>Fri, 10 Apr 2026 17:28:53 GMT</pubDate>
