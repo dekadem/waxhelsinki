@@ -714,6 +714,10 @@ function handleSpaNavigation() {
   });
 
   window.addEventListener("popstate", () => {
+    if (hasStandaloneMixPage) {
+      const isMix = /\/mix-\d+\.html$/i.test(location.pathname);
+      if (!isMix) return;
+    }
     applyRoute(location.pathname, true);
   });
 }
