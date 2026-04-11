@@ -421,6 +421,17 @@ function setShellVisibility(showMixPage) {
   if (mixes) mixes.hidden = showMixPage;
 }
 
+function scrollToMixTitle(behavior = "auto") {
+  const title = document.getElementById("mix-title");
+  if (!title) return;
+
+  const topbar = document.querySelector(".topbar");
+  const topbarOffset = topbar ? topbar.getBoundingClientRect().height : 0;
+  const spacing = 12;
+  const top = Math.max(window.scrollY + title.getBoundingClientRect().top - topbarOffset - spacing, 0);
+  window.scrollTo({ top, behavior });
+}
+
 function applyRoute(pathname, replaceState) {
   const mixId = parseMixIdFromPath(pathname);
   if (mixId) {
@@ -440,6 +451,7 @@ function applyRoute(pathname, replaceState) {
     if (mix) {
       document.title = `${mix.title} | wax helsinki`;
     }
+    scrollToMixTitle(replaceState ? "auto" : "smooth");
     const normalized = `./${mixId}.html`;
     if (replaceState) {
       history.replaceState({ mixId }, "", normalized);
@@ -486,7 +498,6 @@ function handleSpaNavigation() {
 
     event.preventDefault();
     applyRoute(url.pathname, false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
   window.addEventListener("popstate", () => {
