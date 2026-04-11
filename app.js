@@ -486,9 +486,16 @@ function yieldToMain() {
 async function renderHome(errorMessage = "") {
   const grid = document.getElementById("mix-grid");
   if (!grid) return;
-  grid.innerHTML = "";
+  
+  const staticLcpCard = grid.querySelector('[data-static-lcp]');
+  const startIndex = staticLcpCard ? 1 : 0;
+  
+  if (!staticLcpCard) {
+    grid.innerHTML = "";
+  }
 
   if (errorMessage) {
+    grid.innerHTML = "";
     grid.insertAdjacentHTML(
       "beforeend",
       `<p class="mix-load-error" role="status">${escapeHtml(errorMessage)}</p>`,
@@ -496,8 +503,8 @@ async function renderHome(errorMessage = "") {
     return;
   }
 
-  for (let i = 0; i < MIXES.length; i++) {
-    const fetchPriority = i === 0 ? "high" : "low";
+  for (let i = startIndex; i < MIXES.length; i++) {
+    const fetchPriority = i === 0 && !staticLcpCard ? "high" : "low";
     grid.insertAdjacentHTML("beforeend", mixCardHtml(MIXES[i], fetchPriority));
     if (i < MIXES.length - 1) await yieldToMain();
   }

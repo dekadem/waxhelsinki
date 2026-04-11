@@ -5,7 +5,6 @@ import html
 import json
 import pathlib
 import re
-import subprocess
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ROOT_RESOLVED = ROOT.resolve()
@@ -69,26 +68,11 @@ def probe_local_image_size(art_src: str) -> tuple[str, str] | None:
     if not image_path.exists():
         return None
     try:
-        proc = subprocess.run(
-            ["sips", "-g", "pixelWidth", "-g", "pixelHeight", str(image_path)],
-            check=True,
-            capture_output=True,
-            text=True,
-        )
-    except (subprocess.SubprocessError, FileNotFoundError):
+        from PIL import Image
+        with Image.open(image_path) as img:
+            return str(img.width), str(img.height)
+    except Exception:
         return None
-
-    width = None
-    height = None
-    for line in proc.stdout.splitlines():
-        line = line.strip()
-        if line.startswith("pixelWidth:"):
-            width = line.split(":", 1)[1].strip()
-        elif line.startswith("pixelHeight:"):
-            height = line.split(":", 1)[1].strip()
-    if width and height and width.isdigit() and height.isdigit():
-        return width, height
-    return None
 
 
 def build():
