@@ -318,6 +318,29 @@ function ensurePlayerStyles() {
       cursor: pointer;
     }
     .play-mix-btn:hover { border-color: #fde400; }
+    .player {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(246, 246, 246, 0.85);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid rgba(0, 0, 0, 0.12);
+      padding: 12px 20px;
+      z-index: 30;
+    }
+    .player-row {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      font-family: "Space Grotesk", Arial, sans-serif;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+    }
     .player .player-meta { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
     .player .player-label { opacity: 0.65; }
     .player .player-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
