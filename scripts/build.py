@@ -46,6 +46,7 @@ def build():
         replacements = {
             "id": mix_id,
             "title": mix["title"],
+            "duration": mix["duration"],
             "description": mix["description"],
             "artSrc": mix["artUrl"],
             "artAlt": mix["artAlt"],
