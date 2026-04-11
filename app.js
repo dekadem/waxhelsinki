@@ -77,6 +77,7 @@ function mixCardHtml(mix, fetchPriority) {
 }
 
 let MIXES = [];
+let MIXES_LOAD_ERROR = "";
 
 const PLAYER_STATE_KEY = "waxhelsinki-player-state-v1";
 let globalPlayer = null;
@@ -473,9 +474,18 @@ function yieldToMain() {
   });
 }
 
-async function renderHome() {
+async function renderHome(errorMessage = "") {
   const grid = document.getElementById("mix-grid");
   if (!grid) return;
+  grid.innerHTML = "";
+
+  if (errorMessage) {
+    grid.insertAdjacentHTML(
+      "beforeend",
+      `<p class="mix-load-error" role="status">${escapeHtml(errorMessage)}</p>`,
+    );
+    return;
+  }
 
   for (let i = 0; i < MIXES.length; i++) {
     const fetchPriority = i === 0 ? "high" : "low";
@@ -684,10 +694,19 @@ function handleSpaNavigation() {
     if (!res.ok) {
       throw new Error(`Failed to load mixes.json: ${res.status} ${res.statusText}`);
     }
-    MIXES = await res.json();
-  } catch { /* MIXES stays empty */ }
+    const parsed = await res.json();
+    if (!Array.isArray(parsed)) {
+      throw new Error("mixes.json must contain an array");
+    }
+    MIXES = parsed;
+    MIXES_LOAD_ERROR = "";
+  } catch (error) {
+    console.error("Unable to load mixes:", error);
+    MIXES = [];
+    MIXES_LOAD_ERROR = "Unable to load mixes right now. Please refresh and try again.";
+  }
 
-  void renderHome().catch(() => {});
+  void renderHome(MIXES_LOAD_ERROR).catch(() => {});
   handleSpaNavigation();
   ensureGlobalPlayer();
   bindPlayButtons();

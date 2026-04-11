@@ -161,6 +161,14 @@ h1, h2, h3, .label, .brand, .btn {
   text-decoration: none;
   color: inherit;
 }
+.mix-load-error {
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(253, 228, 0, 0.5);
+  color: var(--yellow);
+  font-family: "Space Grotesk", Arial, sans-serif;
+  text-transform: uppercase;
+}
 
 /* === Mix detail (SPA shell on index + standalone mix pages) === */
 .mix-page-shell {

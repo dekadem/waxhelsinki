@@ -32,7 +32,7 @@ cp -f \
 NULLGLOB_STATE="$(shopt -p nullglob || true)"
 shopt -s nullglob
 for mix_html in mix-*.html; do
-  [ -f "$mix_html" ] && cp -f "$mix_html" dist/
+  cp -f "$mix_html" dist/
 done
 eval "$NULLGLOB_STATE"
 

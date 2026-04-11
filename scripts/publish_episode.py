@@ -24,10 +24,13 @@ def slugify(value: str) -> str:
 
 
 def derive_mix_id_from_title(title: str) -> str:
-    """Extract mix number from title like 'WAXMIX 025' and return 'mix-025'."""
-    match = re.search(r"\bmix\s+(\d+)\b", title, re.IGNORECASE)
+    """Extract mix number from title and normalize to mix-###."""
+    match = re.search(r"(?:wax)?mix[\s_-]*(\d+)\b", title, re.IGNORECASE)
     if match:
-        return f"mix-{match.group(1)}"
+        number = match.group(1)
+        if len(number) < 3:
+            number = number.zfill(3)
+        return f"mix-{number}"
     return slugify(title)
 
 
@@ -140,26 +143,41 @@ def main():
 
     feed_path = pathlib.Path(args.feed)
     mixes_path = pathlib.Path(args.mixes_json)
+    feed_tmp = feed_path.with_suffix(feed_path.suffix + ".tmp")
+    mixes_tmp = mixes_path.with_suffix(mixes_path.suffix + ".tmp")
 
-    add_feed_item(
-        feed_path=feed_path,
-        title=args.title,
-        description=args.description,
-        pub_date_rfc2822=args.pub_date_rfc2822,
-        guid=guid,
-        audio_url=args.audio_url,
-        audio_length=args.audio_length,
-        duration_seconds=args.duration_seconds,
-    )
+    try:
+        # Work on temporary copies first so originals are untouched unless both updates succeed.
+        feed_tmp.write_text(feed_path.read_text(encoding="utf-8"), encoding="utf-8")
+        mixes_tmp.write_text(mixes_path.read_text(encoding="utf-8"), encoding="utf-8")
 
-    add_mixes_json_entry(
-        mixes_path=mixes_path,
-        mix_id=mix_id,
-        title=args.title,
-        description=args.description,
-        duration_display=seconds_to_itunes_duration(args.duration_seconds),
-        audio_url=args.audio_url,
-    )
+        add_mixes_json_entry(
+            mixes_path=mixes_tmp,
+            mix_id=mix_id,
+            title=args.title,
+            description=args.description,
+            duration_display=seconds_to_itunes_duration(args.duration_seconds),
+            audio_url=args.audio_url,
+        )
+
+        add_feed_item(
+            feed_path=feed_tmp,
+            title=args.title,
+            description=args.description,
+            pub_date_rfc2822=args.pub_date_rfc2822,
+            guid=guid,
+            audio_url=args.audio_url,
+            audio_length=args.audio_length,
+            duration_seconds=args.duration_seconds,
+        )
+
+        mixes_tmp.replace(mixes_path)
+        feed_tmp.replace(feed_path)
+    finally:
+        if mixes_tmp.exists():
+            mixes_tmp.unlink()
+        if feed_tmp.exists():
+            feed_tmp.unlink()
 
 
 if __name__ == "__main__":

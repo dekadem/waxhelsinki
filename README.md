@@ -7,7 +7,7 @@ Live URLs:
 
 ## Project structure
 
-```
+```text
 mixes.json              Single source of truth for all mix data
 index.html              Home page
 styles.css              All CSS (shared by index + mix pages)
@@ -48,9 +48,9 @@ What this does automatically:
 python3 scripts/build.py && npx wrangler@4.81.1 pages dev
 ```
 
-This serves the site at `http://localhost:8788`. Edits to `app.js`, `styles.css`, `index.html`, and `mixes.json` are live on refresh -- no rebuild needed.
+This serves the site at `http://localhost:8788`. Edits to `app.js`, `styles.css`, and `index.html` are live on refresh.
 
-Only re-run `python3 scripts/build.py` if you change `mixes.json` or `_template/mix.html` (to regenerate `mix-*.html` pages).
+`mixes.json` is read at runtime by `app.js`, so homepage/runtime data updates show after refresh. Re-run `python3 scripts/build.py` after changing `mixes.json` or `_template/mix.html` to regenerate the static `mix-*.html` pages.
 
 ## Deploy (manual)
 
