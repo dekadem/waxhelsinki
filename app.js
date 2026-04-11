@@ -442,7 +442,7 @@ function ensureGlobalPlayer() {
   }
   const title = container.querySelector(".player-title");
   const audio = container.querySelector(".player-audio");
-  globalPlayer = { container, title, audio, currentMixId: "" };
+  globalPlayer = { container, title, audio, currentMixId: "", pendingSeekHandler: null };
 
   audio.addEventListener("ended", () => {
     const nextMixId = getNextMixId(globalPlayer.currentMixId);
@@ -461,6 +461,10 @@ async function playMixById(mixId, options = {}) {
   const player = ensureGlobalPlayer();
   const mix = getMixById(mixId);
   if (!mix || !player.audio) return;
+  if (player.pendingSeekHandler) {
+    player.audio.removeEventListener("loadedmetadata", player.pendingSeekHandler);
+    player.pendingSeekHandler = null;
+  }
   const sourceUrl = sanitizeUrl(mix.audioUrl);
   const isNewTrack = player.currentMixId !== mix.id || player.audio.src !== new URL(sourceUrl, location.href).toString();
   if (isNewTrack) {
@@ -469,10 +473,21 @@ async function playMixById(mixId, options = {}) {
     player.audio.src = sourceUrl;
     player.audio.load();
   }
-  if (options.resetTime) {
-    player.audio.currentTime = 0;
-  } else if (Number.isFinite(options.startTime) && options.startTime > 0) {
-    player.audio.currentTime = options.startTime;
+  const targetTime = options.resetTime ? 0 : Number.isFinite(options.startTime) && options.startTime > 0 ? options.startTime : null;
+  if (targetTime !== null) {
+    if (isNewTrack && player.audio.readyState < HTMLMediaElement.HAVE_METADATA) {
+      const expectedMixId = mix.id;
+      const applyDeferredSeek = () => {
+        player.pendingSeekHandler = null;
+        if (player.currentMixId !== expectedMixId) return;
+        player.audio.currentTime = targetTime;
+        writePlayerState();
+      };
+      player.pendingSeekHandler = applyDeferredSeek;
+      player.audio.addEventListener("loadedmetadata", applyDeferredSeek, { once: true });
+    } else {
+      player.audio.currentTime = targetTime;
+    }
   }
   if (options.autoplay !== false) {
     try {
