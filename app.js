@@ -51,7 +51,6 @@ function mixCardHtml(mix, fetchPriority) {
   const safeDescription = escapeHtml(mix.description);
   const safeArtAlt = escapeHtml(mix.artAlt);
   const safeArtUrl = sanitizeUrl(mix.artUrl);
-  const safeAudioUrl = sanitizeUrl(mix.audioUrl);
   const fpValue = fetchPriority === "high" || fetchPriority === "low" ? fetchPriority : "auto";
   const fp = ` fetchpriority="${fpValue}"`;
   const img = isDefaultCoverArt(mix.artUrl)
@@ -552,13 +551,6 @@ function renderMixPageById(mixId) {
     audioEl.remove();
   }
   if (playBtn) {
-    if (!playBtn.parentElement && audioEl?.parentElement) {
-      playBtn = document.createElement("button");
-      playBtn.id = "mix-play-btn";
-      playBtn.className = "play-mix-btn";
-      playBtn.type = "button";
-      audioEl.insertAdjacentElement("beforebegin", playBtn);
-    }
     playBtn.setAttribute("data-play-mix-id", mix.id);
     playBtn.textContent = "▶ Play in player";
     playBtn.setAttribute("aria-label", `Play ${mix.title}`);
