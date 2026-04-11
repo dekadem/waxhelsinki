@@ -433,6 +433,33 @@ function ensurePlayerStyles() {
       letter-spacing: 0.01em;
       flex-shrink: 0;
     }
+    .player .player-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .player .player-volume {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .player .player-volume-btn {
+      border: 0;
+      background: transparent;
+      color: #1b1b1b;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+    }
+    .player .player-volume-slider {
+      width: 72px;
+      height: 4px;
+      margin: 0;
+      accent-color: #0f0f0f;
+      cursor: pointer;
+    }
     .player .player-progress {
       width: 100%;
       margin-top: 10px;
@@ -475,6 +502,11 @@ function ensurePlayerStyles() {
         align-items: flex-start;
         flex-direction: column;
         gap: 4px;
+      }
+    }
+    @media (max-width: 640px) {
+      .player .player-volume {
+        display: none;
       }
     }
     @media (max-width: 480px) {
@@ -563,7 +595,7 @@ function writePlayerState() {
 
 function updatePlayerUi() {
   if (!globalPlayer?.audio) return;
-  const { audio, playButton, progressFill, timeValue } = globalPlayer;
+  const { audio, playButton, progressFill, timeValue, volumeButton, volumeSlider } = globalPlayer;
   const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0;
   const currentTime = Number.isFinite(audio.currentTime) && audio.currentTime > 0 ? audio.currentTime : 0;
   const ratio = duration > 0 ? Math.min(currentTime / duration, 1) : 0;
@@ -578,6 +610,17 @@ function updatePlayerUi() {
   }
   if (timeValue) {
     timeValue.textContent = `${formatTime(currentTime)} / ${duration > 0 ? formatTime(duration) : "--:--"}`;
+  }
+  if (volumeSlider) {
+    const effectiveVolume = audio.muted ? 0 : Math.round((Number(audio.volume) || 0) * 100);
+    volumeSlider.value = String(effectiveVolume);
+  }
+  if (volumeButton) {
+    const effectiveVolume = audio.muted ? 0 : Number(audio.volume) || 0;
+    const icon = effectiveVolume <= 0 ? "🔇" : effectiveVolume < 0.5 ? "🔉" : "🔊";
+    const label = effectiveVolume <= 0 ? "Unmute audio" : "Mute audio";
+    volumeButton.textContent = icon;
+    volumeButton.setAttribute("aria-label", label);
   }
 }
 
@@ -601,7 +644,13 @@ function ensureGlobalPlayer() {
         <div class="player-main">
           <div class="player-topline">
             <strong class="player-title">Now playing: ${defaultTitle}</strong>
-            <span class="player-time">0:00 / --:--</span>
+            <div class="player-right">
+              <span class="player-time">0:00 / --:--</span>
+              <div class="player-volume">
+                <button class="player-volume-btn" type="button" aria-label="Mute audio">🔊</button>
+                <input class="player-volume-slider" type="range" min="0" max="100" step="1" value="100" aria-label="Volume" />
+              </div>
+            </div>
           </div>
           <button class="player-progress" type="button" aria-label="Seek playback position">
             <span class="player-progress-fill"></span>
@@ -620,6 +669,8 @@ function ensureGlobalPlayer() {
   const progressButton = container.querySelector(".player-progress");
   const progressFill = container.querySelector(".player-progress-fill");
   const timeValue = container.querySelector(".player-time");
+  const volumeButton = container.querySelector(".player-volume-btn");
+  const volumeSlider = container.querySelector(".player-volume-slider");
   const preselectedMixId = latestMix ? latestMix.id : "";
   globalPlayer = {
     container,
@@ -631,6 +682,9 @@ function ensureGlobalPlayer() {
     progressButton,
     progressFill,
     timeValue,
+    volumeButton,
+    volumeSlider,
+    lastVolume: 1,
     currentMixId: preselectedMixId,
     pendingSeekHandler: null,
   };
@@ -640,6 +694,33 @@ function ensureGlobalPlayer() {
   if (latestMix && audio && !audio.src) {
     audio.src = sanitizeUrl(latestMix.audioUrl);
   }
+  if (volumeSlider) {
+    volumeSlider.value = String(Math.round((Number(audio.volume) || 1) * 100));
+  }
+
+  volumeSlider?.addEventListener("input", () => {
+    const nextVolume = Math.min(1, Math.max(0, Number(volumeSlider.value) / 100));
+    audio.volume = nextVolume;
+    if (nextVolume > 0) {
+      globalPlayer.lastVolume = nextVolume;
+      audio.muted = false;
+    } else {
+      audio.muted = true;
+    }
+    updatePlayerUi();
+  });
+  volumeButton?.addEventListener("click", () => {
+    const isMuted = audio.muted || audio.volume <= 0;
+    if (isMuted) {
+      const restored = Math.min(1, Math.max(0.05, Number(globalPlayer.lastVolume) || 0.7));
+      audio.volume = restored;
+      audio.muted = false;
+    } else {
+      globalPlayer.lastVolume = audio.volume > 0 ? audio.volume : globalPlayer.lastVolume;
+      audio.muted = true;
+    }
+    updatePlayerUi();
+  });
 
   prevButton?.addEventListener("click", () => {
     const previousMixId = getPreviousMixId(globalPlayer.currentMixId);
@@ -714,6 +795,7 @@ function ensureGlobalPlayer() {
   audio.addEventListener("pause", updatePlayerUi);
   audio.addEventListener("play", updatePlayerUi);
   audio.addEventListener("loadedmetadata", updatePlayerUi);
+  audio.addEventListener("volumechange", updatePlayerUi);
   audio.addEventListener("pause", writePlayerState);
   audio.addEventListener("play", writePlayerState);
   audio.addEventListener("loadedmetadata", writePlayerState);
