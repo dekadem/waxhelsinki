@@ -736,7 +736,7 @@ function handleSpaNavigation() {
   const rootMixId = root?.dataset.mixId ? String(root.dataset.mixId).trim() : "";
   if (rootMixId && MIXES.find((item) => item.id === rootMixId)) {
     renderMixPageById(rootMixId);
-  } else {
+  } else if (!rootMixId) {
     applyRoute(location.pathname, true);
   }
 })();
