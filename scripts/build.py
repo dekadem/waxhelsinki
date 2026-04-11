@@ -24,7 +24,7 @@ def build():
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     mixes = json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
-    required_keys = ("id", "title", "description", "audioUrl", "artUrl", "artAlt")
+    required_keys = ("id", "title", "duration", "description", "audioUrl", "artUrl", "artAlt")
     for index, mix in enumerate(mixes):
         if not isinstance(mix, dict):
             raise ValueError(f"Mix at index {index} must be an object")
