@@ -472,6 +472,7 @@ function ensureGlobalPlayer() {
   audio.addEventListener("pause", writePlayerState);
   audio.addEventListener("play", writePlayerState);
   audio.addEventListener("loadedmetadata", writePlayerState);
+  window.addEventListener("pagehide", writePlayerState);
 
   return globalPlayer;
 }
@@ -508,7 +509,7 @@ async function playMixById(mixId, options = {}) {
       player.audio.currentTime = targetTime;
     }
   }
-  if (options.autoplay !== false) {
+  if (options.autoplay === true) {
     try {
       await player.audio.play();
     } catch {
