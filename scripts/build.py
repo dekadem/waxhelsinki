@@ -66,8 +66,10 @@ def probe_local_image_size(art_src: str) -> tuple[str, str] | None:
 def build():
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     mixes = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+    output_dir = ROOT.resolve()
 
     required_keys = ("id", "title", "duration", "description", "audioUrl", "artUrl", "artAlt")
+    expected_filenames: set[str] = set()
     for index, mix in enumerate(mixes):
         if not isinstance(mix, dict):
             raise ValueError(f"Mix at index {index} must be an object")
@@ -80,6 +82,7 @@ def build():
         mix_id = mix["id"].strip()
         if not MIX_ID_RE.fullmatch(mix_id):
             raise ValueError(f"Mix at index {index} has invalid id '{mix_id}'")
+        expected_filenames.add(f"{mix_id}.html")
 
         audio_type = mix.get("audioType")
         if not isinstance(audio_type, str) or not audio_type.strip():
@@ -125,10 +128,14 @@ def build():
         for key, value in replacements.items():
             rendered = rendered.replace("{{" + key + "}}", html.escape(value))
 
-        out_path = (ROOT / f"{mix_id}.html").resolve()
+        out_path = (output_dir / f"{mix_id}.html").resolve()
         if ROOT_RESOLVED not in out_path.parents:
             raise ValueError(f"Refusing to write outside project root for mix id '{mix_id}'")
         out_path.write_text(rendered, encoding="utf-8")
+
+    for existing_mix_page in output_dir.glob("mix-*.html"):
+        if existing_mix_page.name not in expected_filenames:
+            existing_mix_page.unlink()
 
     print(f"Built {len(mixes)} mix pages from {TEMPLATE_PATH.name}")
 

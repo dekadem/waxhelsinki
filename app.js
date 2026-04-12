@@ -49,6 +49,22 @@ function isValidMix(value) {
   for (const key of requiredKeys) {
     if (typeof value[key] !== "string" || !value[key].trim()) return false;
   }
+  if (!/^mix-\d+$/.test(value.id.trim())) return false;
+
+  const hasExpectedMediaUrl = (rawValue, extensions) => {
+    let parsed;
+    try {
+      parsed = new URL(rawValue.trim(), location.href);
+    } catch {
+      return false;
+    }
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return false;
+    const pathname = parsed.pathname.toLowerCase();
+    return extensions.some((ext) => pathname.endsWith(`.${ext}`));
+  };
+
+  if (!hasExpectedMediaUrl(value.audioUrl, ["mp3", "m4a", "wav", "ogg"])) return false;
+  if (!hasExpectedMediaUrl(value.artUrl, ["jpg", "jpeg", "png", "webp", "gif"])) return false;
   return true;
 }
 
@@ -592,8 +608,23 @@ function renderMixPageById(mixId) {
       art.src = sanitizeUrl(mix.artUrl);
       art.removeAttribute("srcset");
       art.removeAttribute("sizes");
-      art.removeAttribute("width");
-      art.removeAttribute("height");
+      const hasExistingWidth = art.hasAttribute("width");
+      const hasExistingHeight = art.hasAttribute("height");
+      const nextWidth = Number.parseInt(String(mix.artWidth ?? "").trim(), 10);
+      const nextHeight = Number.parseInt(String(mix.artHeight ?? "").trim(), 10);
+      const hasValidWidth = Number.isFinite(nextWidth) && nextWidth > 0;
+      const hasValidHeight = Number.isFinite(nextHeight) && nextHeight > 0;
+
+      if (hasValidWidth) {
+        art.width = nextWidth;
+      } else if (!hasExistingWidth) {
+        art.removeAttribute("width");
+      }
+      if (hasValidHeight) {
+        art.height = nextHeight;
+      } else if (!hasExistingHeight) {
+        art.removeAttribute("height");
+      }
     }
   }
   const audioEl = document.getElementById("mix-audio");
