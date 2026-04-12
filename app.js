@@ -764,12 +764,16 @@ function handleSpaNavigation() {
     if (!Array.isArray(parsed)) {
       throw new Error("mixes.json must contain an array");
     }
-    if (parsed.length === 0 || !parsed.every(isValidMix)) {
-      console.warn("mixes.json contains invalid items; expected complete mix objects.");
+    const validMixes = parsed.filter(isValidMix);
+    if (validMixes.length === 0) {
+      console.warn("mixes.json contains no valid items; expected complete mix objects.");
       MIXES = [];
       mixesLoadError = "Unable to load mixes right now. Please refresh and try again.";
     } else {
-      MIXES = parsed;
+      if (validMixes.length < parsed.length) {
+        console.warn(`Filtered out ${parsed.length - validMixes.length} invalid mix(es) from mixes.json`);
+      }
+      MIXES = validMixes;
       mixesLoadError = "";
     }
   } catch (error) {
