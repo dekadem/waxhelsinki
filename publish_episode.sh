@@ -3,7 +3,7 @@ set -euo pipefail
 
 if [ "$#" -lt 3 ]; then
   echo "Usage:"
-  echo "  ./publish_episode.sh <mp3-file> \"<episode-title>\" \"<episode-description>\""
+  echo "  ./publish_episode.sh <mp3-file> \"<episode-title>\" \"<episode-description>\" [art-url]"
   echo ""
   echo "Example:"
   echo "  ./publish_episode.sh 3.mp3 \"Mix 003\" \"Third wax helsinki mix.\""
@@ -13,6 +13,7 @@ fi
 MP3_FILE="$1"
 TITLE="$2"
 DESCRIPTION="$3"
+ART_URL="${4:-./cover.jpg}"
 
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT_DIR"
@@ -55,37 +56,29 @@ fi
 AUDIO_URL="${R2_DEV_URL}/${AUDIO_BASENAME}"
 
 echo "-> Uploading $AUDIO_BASENAME to R2"
-# Cache-Control on the object is what r2.dev / custom domains use for CDN + browser TTL (see R2 docs).
 npx wrangler@4.81.1 r2 object put "${AUDIO_BUCKET}/${AUDIO_BASENAME}" \
   --file "$MP3_FILE" \
   --content-type audio/mpeg \
   --cache-control "public, max-age=31536000, immutable" \
   --remote
 
-echo "-> Updating feed.xml and index.html"
+echo "-> Updating feed.xml and mixes.json"
 python3 "./scripts/publish_episode.py" \
   --feed "./feed.xml" \
-  --index "./index.html" \
+  --mixes-json "./mixes.json" \
   --title "$TITLE" \
   --description "$DESCRIPTION" \
   --audio-url "$AUDIO_URL" \
   --audio-length "$AUDIO_SIZE" \
   --duration-seconds "$AUDIO_DURATION_SECONDS" \
-  --pub-date-rfc2822 "$PUB_DATE"
+  --pub-date-rfc2822 "$PUB_DATE" \
+  --art-url "$ART_URL"
 
 echo "-> Validating feed.xml"
 xmllint --noout "./feed.xml"
 
 echo "-> Deploying to Cloudflare Pages"
-mkdir -p dist
-cp -f index.html feed.xml app.js cover.jpg cover-300x300.jpg cover-800x800.jpg cover-1600x1600.jpg cover-3000x3000.jpg konstantin_elmo.jpeg README.md dist/
-NULLGLOB_STATE="$(shopt -p nullglob || true)"
-shopt -s nullglob
-for mix_html in mix-*.html studio-mix-*.html; do
-  [ -f "$mix_html" ] && cp -f "$mix_html" dist/
-done
-eval "$NULLGLOB_STATE"
-npx wrangler@4.81.1 pages deploy dist --project-name "$PAGES_PROJECT"
+./deploy.sh
 
 echo ""
 echo "Done."

@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
+"""Update mixes.json and feed.xml when publishing a new wax helsinki episode."""
+
 import argparse
 import datetime as dt
+import json
 import pathlib
 import re
 import xml.etree.ElementTree as ET
@@ -9,6 +12,7 @@ import xml.etree.ElementTree as ET
 ITUNES_NS = "http://www.itunes.com/dtds/podcast-1.0.dtd"
 ATOM_NS = "http://www.w3.org/2005/Atom"
 CONTENT_NS = "http://purl.org/rss/1.0/modules/content/"
+MIX_ID_RE = re.compile(r"^mix-\d{3}$")
 
 ET.register_namespace("itunes", ITUNES_NS)
 ET.register_namespace("atom", ATOM_NS)
@@ -18,6 +22,24 @@ ET.register_namespace("content", CONTENT_NS)
 def slugify(value: str) -> str:
     cleaned = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
     return cleaned or "episode"
+
+
+def derive_mix_id_from_title(title: str) -> str:
+    """Extract mix number from title and normalize to mix-###."""
+    match = re.search(r"(?:wax)?mix[\s_-]*(\d+)\b", title, re.IGNORECASE)
+    if not match:
+        raise ValueError("Title must include a numeric mix ID (e.g. 'WAXMIX 025') or pass --mix-id mix-025.")
+    number_int = int(match.group(1))
+    if number_int > 999:
+        raise ValueError("Derived mix number exceeds 3 digits; pass --mix-id in mix-### format.")
+    return f"mix-{number_int:03d}"
+
+
+def validate_mix_id(value: str) -> str:
+    mix_id = value.strip().lower()
+    if not MIX_ID_RE.fullmatch(mix_id):
+        raise ValueError(f"Invalid mix ID '{value}'. Expected format: mix-### (e.g. mix-025).")
+    return mix_id
 
 
 def seconds_to_itunes_duration(seconds: float) -> str:
@@ -30,6 +52,12 @@ def seconds_to_itunes_duration(seconds: float) -> str:
     return f"{minutes}:{secs:02d}"
 
 
+def infer_audio_type(audio_url: str) -> str:
+    if audio_url.lower().endswith(".m4a"):
+        return "audio/mp4"
+    return "audio/mpeg"
+
+
 def add_feed_item(
     feed_path: pathlib.Path,
     title: str,
@@ -39,6 +67,7 @@ def add_feed_item(
     audio_url: str,
     audio_length: int,
     duration_seconds: float,
+    audio_type: str = "audio/mpeg",
 ):
     tree = ET.parse(feed_path)
     root = tree.getroot()
@@ -61,7 +90,7 @@ def add_feed_item(
     enclosure = ET.SubElement(item, "enclosure")
     enclosure.set("url", audio_url)
     enclosure.set("length", str(audio_length))
-    enclosure.set("type", "audio/mpeg")
+    enclosure.set("type", audio_type)
     ET.SubElement(item, f"{{{ITUNES_NS}}}duration").text = seconds_to_itunes_duration(duration_seconds)
     ET.SubElement(item, f"{{{ITUNES_NS}}}explicit").text = "no"
     ET.SubElement(item, f"{{{ITUNES_NS}}}episodeType").text = "full"
@@ -78,77 +107,111 @@ def add_feed_item(
     tree.write(feed_path, encoding="utf-8", xml_declaration=True)
 
 
-def add_index_card(
-    index_path: pathlib.Path,
+def add_mixes_json_entry(
+    mixes_path: pathlib.Path,
+    mix_id: str,
     title: str,
     description: str,
     duration_display: str,
     audio_url: str,
+    art_url: str = "./cover.jpg",
 ):
-    article = (
-        '    <article class="card">\n'
-        f"      <h2>{title}</h2>\n"
-        f"      <div class=\"meta\">{duration_display}</div>\n"
-        f"      <p>{description}</p>\n"
-        "      <audio controls preload=\"none\">\n"
-        f"        <source src=\"{audio_url}\" type=\"audio/mpeg\" />\n"
-        "        Your browser does not support the audio element.\n"
-        "      </audio>\n"
-        "    </article>\n\n"
-    )
+    mixes = json.loads(mixes_path.read_text(encoding="utf-8"))
 
-    original = index_path.read_text(encoding="utf-8")
-    marker = "<!-- EPISODE_CARDS_START -->"
-    marker_index = original.find(marker)
-    if marker_index == -1:
-        raise RuntimeError("Could not find episode card insertion point in index.html")
+    for m in mixes:
+        if m.get("id") == mix_id:
+            raise RuntimeError(f"Episode already exists in mixes.json for ID: {mix_id}")
+        if m.get("audioUrl") == audio_url:
+            raise RuntimeError(f"Episode already exists in mixes.json for URL: {audio_url}")
 
-    if audio_url in original:
-        raise RuntimeError(f"Episode already exists in index.html for URL: {audio_url}")
+    audio_type = infer_audio_type(audio_url)
 
-    insertion_index = marker_index + len(marker)
-    updated = original[:insertion_index] + "\n" + article + original[insertion_index:]
-    index_path.write_text(updated, encoding="utf-8")
+    entry = {
+        "id": mix_id,
+        "title": title,
+        "duration": duration_display,
+        "description": description,
+        "audioUrl": audio_url,
+        "artUrl": art_url,
+        "artAlt": f"{title} artwork",
+        "audioType": audio_type,
+    }
+    mixes.insert(0, entry)
+    mixes_path.write_text(json.dumps(mixes, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Update wax helsinki feed + homepage for a new mix.")
+    parser = argparse.ArgumentParser(description="Update wax helsinki feed + mixes.json for a new mix.")
     parser.add_argument("--feed", required=True)
-    parser.add_argument("--index", required=True)
+    parser.add_argument("--mixes-json", required=True)
     parser.add_argument("--title", required=True)
     parser.add_argument("--description", required=True)
     parser.add_argument("--audio-url", required=True)
     parser.add_argument("--audio-length", required=True, type=int)
     parser.add_argument("--duration-seconds", required=True, type=float)
     parser.add_argument("--pub-date-rfc2822", required=True)
+    parser.add_argument("--mix-id", default=None, help="Mix ID (e.g. mix-025). Auto-derived from title if omitted.")
+    parser.add_argument("-a", "--art-url", default="./cover.jpg", help="Artwork URL to store in mixes.json.")
     parser.add_argument("--guid-prefix", default="wax-helsinki")
     args = parser.parse_args()
 
+    try:
+        mix_id = validate_mix_id(args.mix_id) if args.mix_id else derive_mix_id_from_title(args.title)
+    except ValueError as exc:
+        parser.error(str(exc))
     guid_base = slugify(args.title)
     utc_stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%d%H%M%S")
     guid = f"{args.guid_prefix}-{guid_base}-{utc_stamp}"
 
     feed_path = pathlib.Path(args.feed)
-    index_path = pathlib.Path(args.index)
+    mixes_path = pathlib.Path(args.mixes_json)
+    feed_tmp = feed_path.with_suffix(feed_path.suffix + ".tmp")
+    mixes_tmp = mixes_path.with_suffix(mixes_path.suffix + ".tmp")
+    mixes_backup = mixes_path.with_suffix(mixes_path.suffix + ".bak")
 
-    add_feed_item(
-        feed_path=feed_path,
-        title=args.title,
-        description=args.description,
-        pub_date_rfc2822=args.pub_date_rfc2822,
-        guid=guid,
-        audio_url=args.audio_url,
-        audio_length=args.audio_length,
-        duration_seconds=args.duration_seconds,
-    )
+    try:
+        # Work on temporary copies first.
+        feed_tmp.write_text(feed_path.read_text(encoding="utf-8"), encoding="utf-8")
+        mixes_tmp.write_text(mixes_path.read_text(encoding="utf-8"), encoding="utf-8")
 
-    add_index_card(
-        index_path=index_path,
-        title=args.title,
-        description=args.description,
-        duration_display=seconds_to_itunes_duration(args.duration_seconds),
-        audio_url=args.audio_url,
-    )
+        add_mixes_json_entry(
+            mixes_path=mixes_tmp,
+            mix_id=mix_id,
+            title=args.title,
+            description=args.description,
+            duration_display=seconds_to_itunes_duration(args.duration_seconds),
+            audio_url=args.audio_url,
+            art_url=args.art_url,
+        )
+
+        add_feed_item(
+            feed_path=feed_tmp,
+            title=args.title,
+            description=args.description,
+            pub_date_rfc2822=args.pub_date_rfc2822,
+            guid=guid,
+            audio_url=args.audio_url,
+            audio_length=args.audio_length,
+            duration_seconds=args.duration_seconds,
+            audio_type=infer_audio_type(args.audio_url),
+        )
+
+        # Keep a backup so we can rollback mixes.json if replacing feed.xml fails.
+        mixes_backup.write_text(mixes_path.read_text(encoding="utf-8"), encoding="utf-8")
+        mixes_tmp.replace(mixes_path)
+        try:
+            feed_tmp.replace(feed_path)
+        except Exception:
+            if mixes_backup.exists():
+                mixes_backup.replace(mixes_path)
+            raise
+    finally:
+        if mixes_tmp.exists():
+            mixes_tmp.unlink()
+        if feed_tmp.exists():
+            feed_tmp.unlink()
+        if mixes_backup.exists():
+            mixes_backup.unlink()
 
 
 if __name__ == "__main__":

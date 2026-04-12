@@ -43,6 +43,31 @@ function getMixHref(mixId) {
   return `./${sanitizeMixId(mixId)}.html`;
 }
 
+function isValidMix(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const requiredKeys = ["id", "title", "duration", "description", "audioUrl", "artUrl", "artAlt"];
+  for (const key of requiredKeys) {
+    if (typeof value[key] !== "string" || !value[key].trim()) return false;
+  }
+  if (!/^mix-\d+$/.test(value.id.trim())) return false;
+
+  const hasExpectedMediaUrl = (rawValue, extensions) => {
+    let parsed;
+    try {
+      parsed = new URL(rawValue.trim(), location.href);
+    } catch {
+      return false;
+    }
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return false;
+    const pathname = parsed.pathname.toLowerCase();
+    return extensions.some((ext) => pathname.endsWith(`.${ext}`));
+  };
+
+  if (!hasExpectedMediaUrl(value.audioUrl, ["mp3", "m4a", "wav", "ogg"])) return false;
+  if (!hasExpectedMediaUrl(value.artUrl, ["jpg", "jpeg", "png", "webp", "gif"])) return false;
+  return true;
+}
+
 function mixCardHtml(mix, fetchPriority) {
   const safeId = sanitizeMixId(mix.id) || "mix";
   const safeHref = getMixHref(safeId);
@@ -58,242 +83,25 @@ function mixCardHtml(mix, fetchPriority) {
     : `<img src="${safeArtUrl}" alt="${safeArtAlt}"${fp} />`;
   return `
       <article class="mix-card">
-        <a href="${safeHref}" style="text-decoration:none;color:inherit;">
+        <a href="${safeHref}" class="mix-card-link">
           <div class="mix-art">
             ${img}
           </div>
         </a>
         <div class="mix-meta">
-          <h3><a href="${safeHref}" style="color:inherit;text-decoration:none;">${safeTitle}</a></h3>
+          <h3><a href="${safeHref}" class="mix-card-link">${safeTitle}</a></h3>
           <span class="mix-duration">${safeDuration}</span>
         </div>
         <p class="mix-desc">${safeDescription}</p>
         <button class="play-mix-btn" type="button" data-play-mix-id="${escapeHtml(mix.id)}" aria-label="Play ${safeTitle}">
           ▶ Play in player
         </button>
-        <a class="feed-link" href="${safeHref}" style="width:max-content;">Open mix page</a>
+        <a class="feed-link" href="${safeHref}">Open mix page</a>
       </article>
     `;
 }
 
-const MIXES = [
-  {
-    id: "mix-024",
-    title: "WAXMIX 024",
-    duration: "2:15:02",
-    description: "Elmo studio part 1: deep, rolling house and minimal grooves for a long-form session.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-024.mp3",
-    artUrl: "./cover.jpg",
-    artAlt: "WAXMIX 024 artwork",
-  },
-  {
-    id: "mix-023",
-    title: "WAXMIX 023",
-    duration: "57:47",
-    description: "Elmo solo mix: deep house and minimal grooves with warm bass and late-night flow.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-023.mp3",
-    artUrl: "./cover.jpg",
-    artAlt: "WAXMIX 023 artwork",
-  },
-  {
-    id: "mix-022",
-    title: "WAXMIX 022",
-    duration: "1:23:00",
-    description: "Elmo solo session: deep minimal house grooves with crisp percussion and steady club momentum.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-022.mp3",
-    artUrl: "./cover.jpg",
-    artAlt: "WAXMIX 022 artwork",
-  },
-  {
-    id: "mix-021",
-    title: "WAXMIX 021",
-    duration: "2:07:39",
-    description: "Elmo & Konstantin live at WAX OFF party in Helsinki: raw, driving house pressure and late-night energy.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/wax-off-helsinki-2013.mp3",
-    artUrl: "./cover.jpg",
-    artAlt: "WAXMIX 021 artwork",
-  },
-  {
-    id: "mix-020",
-    title: "WAXMIX 020",
-    duration: "2:10:28",
-    description: "Extended minimal house set by Elmo: hypnotic loops, deep bass pressure, and steady late-night drive.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-020.mp3",
-    artUrl: "./cover.jpg",
-    artAlt: "WAXMIX 020 artwork",
-  },
-  {
-    id: "mix-019",
-    title: "WAXMIX 019",
-    duration: "1:43:04",
-    description: "Minimal house session by Elmo: tight grooves, rolling bass, and late-night club momentum.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/elmo-mix-wappu-aatto-2013.mp3",
-    artUrl: "./cover.jpg",
-    artAlt: "WAXMIX 019 artwork",
-  },
-  {
-    id: "mix-018",
-    title: "WAXMIX 018",
-    duration: "53:33",
-    description: "Chill-out summer blend by Elmo: laidback soul, mellow hiphop, and easy sunset grooves.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/letkee-kesa-2008-mix.mp3",
-    artUrl: "./cover.jpg",
-    artAlt: "WAXMIX 018 artwork",
-  },
-  {
-    id: "mix-017",
-    title: "WAXMIX 017",
-    duration: "1:15:03",
-    description: "Elmo house vibes: warm grooves, rolling basslines, and late-night floor energy.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/stelmo-2008-10-11.mp3",
-    artUrl: "./imgs/556023385_24590412430569185_3278474231309641193_n.jpg",
-    artAlt: "WAXMIX 017 artwork",
-  },
-  {
-    id: "mix-016",
-    title: "WAXMIX 016",
-    duration: "1:11:03",
-    description: "Elmo with a stripped-back minimal house flow and late-night groove tension.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/dj-set-2008-11-11.mp3",
-    artUrl: "./imgs/555641797_24591161667160928_6907699687191442456_n.jpg",
-    artAlt: "WAXMIX 016 artwork",
-  },
-  {
-    id: "mix-015",
-    title: "WAXMIX 015",
-    duration: "42:51",
-    description: "Elmo live at Bar Loop: a warm, deep house ride with late-night swing.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/bar-loop-2008-06-11-pt-1-2.mp3",
-    artUrl: "./cover.jpg",
-    artAlt: "WAXMIX 015 artwork",
-  },
-  {
-    id: "mix-014",
-    title: "WAXMIX 014",
-    duration: "53:36",
-    description: "Elmo & Konstantin live at Bar Loop.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/live-bar-loop-2008-06-11.mp3",
-    artUrl: "./imgs/553414165_24591188187158276_8482474541081609932_n.jpg",
-    artAlt: "WAXMIX 014 artwork",
-  },
-  {
-    id: "mix-013",
-    title: "WAXMIX 013",
-    duration: "1:19:58",
-    description: "Elmo & Konstantin at Loop.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/dj-set-loop-2010-05-28.mp3",
-    artUrl: "./imgs/462619689_8457186587651693_5232784768525424538_n.jpg",
-    artAlt: "WAXMIX 013 artwork",
-  },
-  {
-    id: "mix-012",
-    title: "WAXMIX 012",
-    duration: "1:34:51",
-    description: "Elmo & Konstantin at Loop: a chilled, late-night techno house drift.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/line-2009-11-06-loop.mp3",
-    artUrl: "./imgs/496845150_9722340374469635_8656441767417272112_n.jpg",
-    artAlt: "WAXMIX 012 artwork",
-  },
-  {
-    id: "mix-011",
-    title: "WAXMIX 011",
-    duration: "2:04:52",
-    description: "At Beatroot by Elmo & Konstantin: deep warehouse techno house session.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/at-beatroot-2008-11-15.mp3",
-    artUrl: "./konstantin_elmo.jpeg",
-    artAlt: "WAXMIX 011 artwork featuring Konstantin and Elmo",
-  },
-  {
-    id: "mix-010",
-    title: "WAXMIX 010",
-    duration: "1:40:12",
-    description: "Elmo & Konstantin live at Beatroot: rolling techno house with raw club energy.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/beatroot_2010-03-27.m4a",
-    artUrl: "./imgs/556226484_24582068094736952_2929117247685238373_n.jpg",
-    artAlt: "WAXMIX 010 artwork",
-  },
-  {
-    id: "mix-009",
-    title: "WAXMIX 009",
-    duration: "48:51",
-    description: "Studio Mix p3 by Elmo & Konstantin: punchy house rollers and deep techno flow.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p3.mp3",
-    artUrl: "./imgs/556023385_24590412430569185_3278474231309641193_n.jpg",
-    artAlt: "WAXMIX 009 artwork",
-  },
-  {
-    id: "mix-008",
-    title: "WAXMIX 008",
-    duration: "2:15:04",
-    description: "Studio Mix p2 by Elmo & Konstantin: long-form techno house pressure and dubby textures.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p2.mp3",
-    artUrl: "./imgs/555641797_24591161667160928_6907699687191442456_n.jpg",
-    artAlt: "WAXMIX 008 artwork",
-  },
-  {
-    id: "mix-007",
-    title: "WAXMIX 007",
-    duration: "1:35:46",
-    description: "Studio Mix p1 by Elmo & Konstantin: deep techno and house pressure.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p1.mp3",
-    artUrl: "./imgs/555535363_24590761573867604_4537699491397861058_n.jpg",
-    artAlt: "WAXMIX 007 artwork",
-  },
-  {
-    id: "mix-006",
-    title: "WAXMIX 006",
-    duration: "1:12:58",
-    description: "Driving late-night techno house with rolling drums and hypnotic bass by Elmo.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/6.mp3",
-    artUrl: "./cover.jpg",
-    artAlt: "WAXMIX 006 artwork",
-  },
-  {
-    id: "mix-005",
-    title: "WAXMIX 005",
-    duration: "52:24",
-    description: "Warm, groove-led house cuts with crisp techno edges and swing by Elmo.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/5.mp3",
-    artUrl: "./cover.jpg",
-    artAlt: "WAXMIX 005 artwork",
-  },
-  {
-    id: "mix-004",
-    title: "WAXMIX 004",
-    duration: "2:15:03",
-    description: "Long-form warehouse trip through deep techno and minimal house by Elmo & Konstantin.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/4.mp3",
-    artUrl: "./imgs/553414165_24591188187158276_8482474541081609932_n.jpg",
-    artAlt: "WAXMIX 004 artwork",
-  },
-  {
-    id: "mix-003",
-    title: "WAXMIX 003",
-    duration: "2:15:04",
-    description: "Dark, percussive techno house journey with dubbed textures by Elmo & Konstantin.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/3.mp3",
-    artUrl: "./imgs/553371180_24561622720114823_9073916947826008228_n.jpg",
-    artAlt: "WAXMIX 003 artwork",
-  },
-  {
-    id: "mix-002",
-    title: "WAXMIX 002",
-    duration: "48:51",
-    description: "Hypnotic techno house blend with soulful chords and heads-down energy by Elmo & Konstantin.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/2.mp3",
-    artUrl: "./konstantin_elmo.jpeg",
-    artAlt: "WAXMIX 002 artwork featuring Konstantin and Elmo",
-  },
-  {
-    id: "mix-001",
-    title: "WAXMIX 001",
-    duration: "55:17",
-    description: "Foundational Wax Helsinki set: classic house rhythms and raw techno pulse by Elmo.",
-    audioUrl: "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/1.mp3",
-    artUrl: "./imgs/514248286_24588114450798983_173266012237871663_n.jpg",
-    artAlt: "WAXMIX 001 artwork",
-  },
-];
+let MIXES = [];
 
 const PLAYER_STATE_KEY = "waxhelsinki-player-state-v1";
 let globalPlayer = null;
@@ -335,196 +143,6 @@ function throttle(fn, wait) {
       }, remaining);
     }
   };
-}
-
-function ensurePlayerStyles() {
-  if (document.getElementById("global-player-styles")) return;
-  const style = document.createElement("style");
-  style.id = "global-player-styles";
-  style.textContent = `
-    :root { --player-reserved-height: 124px; }
-    body { padding-bottom: var(--player-reserved-height, 124px); }
-    .play-mix-btn {
-      width: max-content;
-      border: 1px solid rgba(253, 228, 0, 0.5);
-      color: #fde400;
-      background: transparent;
-      padding: 8px 12px;
-      text-transform: uppercase;
-      font-family: "Space Grotesk", Arial, sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      cursor: pointer;
-    }
-    .play-mix-btn:hover { border-color: #fde400; }
-    .player {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #f7f7f7;
-      border-top: 1px solid rgba(0, 0, 0, 0.15);
-      padding: 14px 20px 18px;
-      z-index: 30;
-    }
-    .player-row {
-      max-width: 1120px;
-      margin: 0 auto;
-      display: flex;
-      align-items: flex-start;
-      gap: 18px;
-      font-family: "Space Grotesk", Arial, sans-serif;
-      text-transform: uppercase;
-      font-size: 11px;
-      letter-spacing: 0.06em;
-    }
-    .player .player-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-    .player .player-btn {
-      width: 38px;
-      height: 38px;
-      border: 1px solid #1b1b1b;
-      background: #f7f7f7;
-      color: #161616;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      padding: 0;
-      font-size: 16px;
-      line-height: 1;
-    }
-    .player .player-btn.player-play {
-      width: 84px;
-      height: 84px;
-      background: #0f0f0f;
-      color: #fff;
-      border-color: #0f0f0f;
-      font-size: 36px;
-      margin-top: -6px;
-    }
-    .player .player-main {
-      min-width: 0;
-      flex: 1;
-      padding-top: 8px;
-    }
-    .player .player-topline {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
-    }
-    .player .player-title {
-      margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: #141414;
-      font-size: clamp(13px, 1.75vw, 24px);
-      letter-spacing: 0.05em;
-    }
-    .player .player-time {
-      color: #7d7d7d;
-      font-size: clamp(12px, 1.5vw, 22px);
-      letter-spacing: 0.01em;
-      flex-shrink: 0;
-    }
-    .player .player-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-shrink: 0;
-    }
-    .player .player-volume {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .player .player-volume-btn {
-      border: 0;
-      background: transparent;
-      color: #1b1b1b;
-      font-size: 14px;
-      line-height: 1;
-      cursor: pointer;
-      padding: 0;
-    }
-    .player .player-volume-slider {
-      width: 72px;
-      height: 4px;
-      margin: 0;
-      accent-color: #0f0f0f;
-      cursor: pointer;
-    }
-    .player .player-progress {
-      width: 100%;
-      margin-top: 10px;
-      height: 8px;
-      border: 0;
-      background: #d8d8d8;
-      padding: 0;
-      position: relative;
-      cursor: pointer;
-      display: block;
-      touch-action: none;
-    }
-    .player .player-progress-fill {
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 100%;
-      transform-origin: left center;
-      transform: scaleX(0);
-      background: #fde400;
-      pointer-events: none;
-    }
-    .player .player-audio {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-      pointer-events: none;
-    }
-    @media (max-width: 820px) {
-      :root { --player-reserved-height: 152px; }
-      .player .player-btn.player-play {
-        width: 68px;
-        height: 68px;
-        font-size: 28px;
-        margin-top: 0;
-      }
-      .player .player-topline {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 4px;
-      }
-    }
-    @media (max-width: 640px) {
-      .player .player-volume {
-        display: none;
-      }
-    }
-    @media (max-width: 480px) {
-      :root { --player-reserved-height: 172px; }
-      .player { padding: 12px 14px 16px; }
-      .player .player-row { gap: 10px; }
-      .player .player-btn {
-        width: 34px;
-        height: 34px;
-      }
-      .player .player-btn.player-play {
-        width: 56px;
-        height: 56px;
-        font-size: 24px;
-      }
-    }
-  `;
-  document.head.appendChild(style);
 }
 
 function getMixById(mixId) {
@@ -625,7 +243,6 @@ function updatePlayerUi() {
 }
 
 function ensureGlobalPlayer() {
-  ensurePlayerStyles();
   if (globalPlayer) return globalPlayer;
   const latestMix = getLatestMix();
   const defaultTitle = latestMix ? escapeHtml(latestMix.title) : "Select a mix";
@@ -881,17 +498,39 @@ function yieldToMain() {
   });
 }
 
-async function renderHome() {
+async function renderHome(errorMessage = "") {
   const grid = document.getElementById("mix-grid");
   if (!grid) return;
+  
+  const staticLcpCard = grid.querySelector('[data-static-lcp]');
+  let startIndex = 0;
+  
+  if (staticLcpCard) {
+    const staticMixId = staticLcpCard.querySelector('[data-play-mix-id]')?.getAttribute('data-play-mix-id') || '';
+    if (staticMixId && MIXES[0]?.id === staticMixId) {
+      startIndex = 1;
+    } else {
+      staticLcpCard.remove();
+    }
+  }
+  
+  if (!staticLcpCard || startIndex === 0) {
+    grid.innerHTML = "";
+  }
 
-  const staticLcp = grid.querySelector("article[data-static-lcp]");
-  const list = staticLcp ? MIXES.slice(1) : MIXES;
-  for (let i = 0; i < list.length; i++) {
-    const mix = list[i];
-    const fetchPriority = staticLcp || i > 0 ? "low" : "high";
-    grid.insertAdjacentHTML("beforeend", mixCardHtml(mix, fetchPriority));
-    if (i < list.length - 1) await yieldToMain();
+  if (errorMessage) {
+    grid.innerHTML = "";
+    grid.insertAdjacentHTML(
+      "beforeend",
+      `<p class="mix-load-error" role="status">${escapeHtml(errorMessage)}</p>`,
+    );
+    return;
+  }
+
+  for (let i = startIndex; i < MIXES.length; i++) {
+    const fetchPriority = i === 0 && startIndex === 0 ? "high" : "low";
+    grid.insertAdjacentHTML("beforeend", mixCardHtml(MIXES[i], fetchPriority));
+    if (i < MIXES.length - 1) await yieldToMain();
   }
 }
 
@@ -904,45 +543,42 @@ function renderMixPageNavigation(mixId) {
 
   const prevMix = MIXES[currentIndex + 1] || null;
   const nextMix = MIXES[currentIndex - 1] || null;
-  const absoluteCurrentUrl = new URL(getMixHref(mixId), location.origin).toString();
+  const absoluteCurrentUrl = new URL(getMixHref(mixId), location.href).toString();
 
   const prevLink = prevMix
-    ? `<a href="${getMixHref(prevMix.id)}" style="color:#fde400;text-decoration:none;">Prev</a>`
-    : `<span style="opacity:.45;">Prev</span>`;
+    ? `<a href="${getMixHref(prevMix.id)}" class="mix-nav-link">Prev</a>`
+    : `<span class="mix-nav-disabled">Prev</span>`;
   const nextLink = nextMix
-    ? `<a href="${getMixHref(nextMix.id)}" style="color:#fde400;text-decoration:none;">Next</a>`
-    : `<span style="opacity:.45;">Next</span>`;
+    ? `<a href="${getMixHref(nextMix.id)}" class="mix-nav-link">Next</a>`
+    : `<span class="mix-nav-disabled">Next</span>`;
 
   const pageLinks = MIXES.map((item) => {
     const href = getMixHref(item.id);
-    const active = item.id === mixId;
-    if (active) {
-      return `<span style="opacity:.8;">${escapeHtml(item.title)}</span>`;
+    if (item.id === mixId) {
+      return `<span class="active" aria-current="page">${escapeHtml(item.title)}</span>`;
     }
-    return `<a href="${href}" style="color:#fde400;text-decoration:none;">${escapeHtml(item.title)}</a>`;
+    return `<a href="${href}">${escapeHtml(item.title)}</a>`;
   }).join(" · ");
 
   let nav = root.querySelector('[data-mix-page-nav="true"]');
   if (!nav) {
     nav = document.createElement("div");
     nav.setAttribute("data-mix-page-nav", "true");
-    nav.style.marginTop = "22px";
-    nav.style.paddingTop = "16px";
-    nav.style.borderTop = "1px solid rgba(253,228,0,.25)";
+    nav.className = "mix-nav";
     root.appendChild(nav);
   }
 
   nav.innerHTML = `
-    <div style="display:flex;gap:14px;align-items:center;font-family:'Space Grotesk',Arial,sans-serif;text-transform:uppercase;">
+    <div class="mix-nav-arrows">
       ${prevLink}
-      <span style="opacity:.45;">|</span>
+      <span class="mix-nav-sep">|</span>
       ${nextLink}
     </div>
-    <div style="margin-top:10px;font-size:12px;opacity:.8;">
-      <strong style="font-family:'Space Grotesk',Arial,sans-serif;text-transform:uppercase;">Pages below content:</strong>
-      <a href="${absoluteCurrentUrl}" style="color:#fde400;text-decoration:none;">${absoluteCurrentUrl}</a>
+    <div class="mix-nav-canonical">
+      <strong>Pages below content:</strong>
+      <a href="${absoluteCurrentUrl}">${absoluteCurrentUrl}</a>
     </div>
-    <div style="margin-top:8px;font-size:14px;line-height:1.5;">
+    <div class="mix-nav-pages">
       ${pageLinks}
     </div>
   `;
@@ -972,8 +608,23 @@ function renderMixPageById(mixId) {
       art.src = sanitizeUrl(mix.artUrl);
       art.removeAttribute("srcset");
       art.removeAttribute("sizes");
-      art.removeAttribute("width");
-      art.removeAttribute("height");
+      const hasExistingWidth = art.hasAttribute("width");
+      const hasExistingHeight = art.hasAttribute("height");
+      const nextWidth = Number.parseInt(String(mix.artWidth ?? "").trim(), 10);
+      const nextHeight = Number.parseInt(String(mix.artHeight ?? "").trim(), 10);
+      const hasValidWidth = Number.isFinite(nextWidth) && nextWidth > 0;
+      const hasValidHeight = Number.isFinite(nextHeight) && nextHeight > 0;
+
+      if (hasValidWidth) {
+        art.width = nextWidth;
+      } else if (!hasExistingWidth) {
+        art.removeAttribute("width");
+      }
+      if (hasValidHeight) {
+        art.height = nextHeight;
+      } else if (!hasExistingHeight) {
+        art.removeAttribute("height");
+      }
     }
   }
   const audioEl = document.getElementById("mix-audio");
@@ -1066,7 +717,8 @@ function applyRoute(pathname, replaceState) {
 
 function handleSpaNavigation() {
   const hasSpaShell = Boolean(document.getElementById("mix-page-shell"));
-  if (!hasSpaShell) return;
+  const hasStandaloneMixPage = !hasSpaShell && Boolean(document.getElementById("mix-page"));
+  if (!hasSpaShell && !hasStandaloneMixPage) return;
 
   document.addEventListener("click", (event) => {
     const link = event.target.closest("a[href]");
@@ -1081,25 +733,65 @@ function handleSpaNavigation() {
     if (!sameOrigin) return;
     const isMix = /\/mix-\d+\.html$/i.test(url.pathname);
     const isHome = /\/(?:index\.html)?$/i.test(url.pathname);
-    if (!isMix && !isHome) return;
+    if (hasSpaShell) {
+      if (!isMix && !isHome) return;
+    } else if (!isMix) {
+      // On standalone mix pages, only intercept mix-to-mix links.
+      return;
+    }
 
     event.preventDefault();
     applyRoute(url.pathname, false);
   });
 
   window.addEventListener("popstate", () => {
+    if (hasStandaloneMixPage) {
+      const isMix = /\/mix-\d+\.html$/i.test(location.pathname);
+      if (!isMix) return;
+    }
     applyRoute(location.pathname, true);
   });
 }
 
-void renderHome().catch(() => {});
-handleSpaNavigation();
-ensureGlobalPlayer();
-bindPlayButtons();
-restorePlayerState();
-const root = document.getElementById("mix-page");
-if (root && root.dataset.mixId) {
-  renderMixPageById(root.dataset.mixId);
-} else {
-  applyRoute(location.pathname, true);
-}
+(async function init() {
+  let mixesLoadError = "";
+  try {
+    const res = await fetch("./mixes.json");
+    if (!res.ok) {
+      throw new Error(`Failed to load mixes.json: ${res.status} ${res.statusText}`);
+    }
+    const parsed = await res.json();
+    if (!Array.isArray(parsed)) {
+      throw new Error("mixes.json must contain an array");
+    }
+    const validMixes = parsed.filter(isValidMix);
+    if (validMixes.length === 0) {
+      console.warn("mixes.json contains no valid items; expected complete mix objects.");
+      MIXES = [];
+      mixesLoadError = "Unable to load mixes right now. Please refresh and try again.";
+    } else {
+      if (validMixes.length < parsed.length) {
+        console.warn(`Filtered out ${parsed.length - validMixes.length} invalid mix(es) from mixes.json`);
+      }
+      MIXES = validMixes;
+      mixesLoadError = "";
+    }
+  } catch (error) {
+    console.error("Unable to load mixes:", error);
+    MIXES = [];
+    mixesLoadError = "Unable to load mixes right now. Please refresh and try again.";
+  }
+
+  void renderHome(mixesLoadError).catch(() => {});
+  handleSpaNavigation();
+  ensureGlobalPlayer();
+  bindPlayButtons();
+  restorePlayerState();
+  const root = document.getElementById("mix-page");
+  const rootMixId = root?.dataset.mixId ? String(root.dataset.mixId).trim() : "";
+  if (rootMixId && MIXES.find((item) => item.id === rootMixId)) {
+    renderMixPageById(rootMixId);
+  } else if (!rootMixId) {
+    applyRoute(location.pathname, true);
+  }
+})();

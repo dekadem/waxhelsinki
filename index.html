@@ -24,402 +24,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Space+Grotesk:wght@400;500;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Space+Grotesk:wght@400;500;700;800&display=swap" /></noscript>
   <link rel="preload" as="image" fetchpriority="high" href="./cover-1600x1600.jpg" imagesrcset="./cover-300x300.jpg 300w, ./cover-800x800.jpg 800w, ./cover-1600x1600.jpg 1600w, ./cover-3000x3000.jpg 3000w" imagesizes="(max-width: 480px) 100vw, (max-width: 820px) calc(50vw - 48px), (max-width: 1180px) calc(33.33vw - 48px), 360px" />
-  <style>
-    :root {
-      --yellow: #fde400;
-      --bg: #f6f6f6;
-      --text: #2f2f2f;
-      --black: #0e0e0e;
-      --muted: #686868;
-      --player-reserved-height: 124px;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Manrope, Arial, sans-serif;
-      padding-bottom: var(--player-reserved-height, 96px);
-    }
-    h1, h2, h3, .label, .brand, .btn {
-      font-family: "Space Grotesk", Arial, sans-serif;
-      letter-spacing: -0.02em;
-    }
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: rgba(246, 246, 246, 0.8);
-      backdrop-filter: blur(18px);
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .brand {
-      font-weight: 800;
-      font-size: 28px;
-      text-transform: uppercase;
-    }
-    .hero {
-      min-height: 70vh;
-      display: grid;
-      align-content: center;
-      padding: 28px 20px 64px;
-      position: relative;
-      overflow: hidden;
-      background: var(--yellow);
-    }
-    .hero h1 {
-      margin: 0;
-      font-size: clamp(56px, 14vw, 180px);
-      line-height: 0.88;
-      font-weight: 800;
-      text-transform: uppercase;
-      color: var(--black);
-    }
-    .hero p {
-      max-width: 720px;
-      font-size: clamp(18px, 2.7vw, 30px);
-      margin: 28px 0;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      padding: 14px 18px;
-      text-transform: uppercase;
-      font-weight: 700;
-      border: 0;
-      cursor: pointer;
-      text-decoration: none;
-      color: var(--black);
-      background: var(--bg);
-      font-size: 13px;
-    }
-    .btn.dark {
-      background: var(--black);
-      color: var(--bg);
-    }
-    .section-dark {
-      background: var(--black);
-      color: #fff;
-      padding: 72px 20px;
-    }
-    .mix-page-shell {
-      background: var(--black);
-      color: var(--bg);
-      padding: 28px 20px 48px;
-    }
-    .mix-page-shell[hidden] {
-      display: none;
-    }
-    .mix-page-shell .wrap {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-    .mix-page-shell .back {
-      color: var(--yellow);
-      text-decoration: none;
-      font-family: "Space Grotesk", Arial, sans-serif;
-      text-transform: uppercase;
-    }
-    .mix-page-shell h1 {
-      font-family: "Space Grotesk", Arial, sans-serif;
-      font-size: clamp(42px, 10vw, 112px);
-      margin: 20px 0 8px;
-      text-transform: uppercase;
-    }
-    .mix-page-shell .meta {
-      color: var(--muted);
-      font-family: "Space Grotesk", Arial, sans-serif;
-      margin-bottom: 24px;
-    }
-    .mix-page-shell .art {
-      width: 100%;
-      max-height: 520px;
-      object-fit: cover;
-      display: block;
-      margin-bottom: 18px;
-      filter: grayscale(100%) contrast(1.1);
-    }
-    .mix-page-shell p {
-      color: var(--muted);
-      font-size: 20px;
-      line-height: 1.5;
-    }
-    .mix-page-shell audio {
-      width: 100%;
-      margin-top: 8px;
-    }
-    .section-wrap {
-      max-width: 1120px;
-      margin: 0 auto;
-    }
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 16px;
-      margin-bottom: 44px;
-      flex-wrap: wrap;
-    }
-    .section-head h2 {
-      margin: 0;
-      font-size: clamp(34px, 6vw, 68px);
-      text-transform: uppercase;
-      font-weight: 800;
-      line-height: 0.95;
-    }
-    .mix-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 56px;
-    }
-    .mix-card {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      content-visibility: auto;
-      contain-intrinsic-size: auto 480px;
-    }
-    .mix-art {
-      background: #161616;
-      aspect-ratio: 16 / 10;
-      overflow: hidden;
-    }
-    .mix-art img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(100%) contrast(1.1);
-    }
-    .mix-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 16px;
-    }
-    .mix-meta h3 {
-      margin: 0;
-      font-size: clamp(36px, 5vw, 62px);
-      text-transform: uppercase;
-      line-height: 0.95;
-      color: var(--yellow);
-    }
-    .mix-duration {
-      color: #d7d7d7;
-      font-family: "Space Grotesk", Arial, sans-serif;
-      font-size: 20px;
-      font-weight: 500;
-    }
-    .mix-desc {
-      color: #a8a8a8;
-      margin: 0;
-      font-size: 18px;
-      line-height: 1.5;
-    }
-    /* Keep in sync with ensurePlayerStyles() in app.js. */
-    .play-mix-btn {
-      width: max-content;
-      border: 1px solid rgba(253, 228, 0, 0.5);
-      color: #fde400;
-      background: transparent;
-      padding: 8px 12px;
-      text-transform: uppercase;
-      font-family: "Space Grotesk", Arial, sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      cursor: pointer;
-    }
-    .play-mix-btn:hover { border-color: #fde400; }
-    audio {
-      width: 100%;
-      height: 34px;
-      filter: grayscale(1) contrast(1.1);
-    }
-    .feed-strip {
-      padding: 44px 20px;
-      background: #ececec;
-      color: var(--black);
-    }
-    .feed-link {
-      display: inline-block;
-      text-decoration: none;
-      color: var(--black);
-      font-weight: 800;
-      text-transform: uppercase;
-      border-bottom: 2px solid var(--yellow);
-      padding-bottom: 2px;
-    }
-    .player {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #f7f7f7;
-      border-top: 1px solid rgba(0, 0, 0, 0.15);
-      padding: 14px 20px 18px;
-      z-index: 30;
-    }
-    .player-row {
-      max-width: 1120px;
-      margin: 0 auto;
-      display: flex;
-      align-items: flex-start;
-      gap: 18px;
-      font-family: "Space Grotesk", Arial, sans-serif;
-      text-transform: uppercase;
-      font-size: 11px;
-      letter-spacing: 0.06em;
-    }
-    .player .player-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-    .player .player-btn {
-      width: 38px;
-      height: 38px;
-      border: 1px solid #1b1b1b;
-      background: #f7f7f7;
-      color: #161616;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      padding: 0;
-      font-size: 16px;
-      line-height: 1;
-    }
-    .player .player-btn.player-play {
-      width: 84px;
-      height: 84px;
-      background: #0f0f0f;
-      color: #fff;
-      border-color: #0f0f0f;
-      font-size: 36px;
-      margin-top: -6px;
-    }
-    .player .player-main {
-      min-width: 0;
-      flex: 1;
-      padding-top: 8px;
-    }
-    .player .player-topline {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
-    }
-    .player .player-title {
-      margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: #141414;
-      font-size: clamp(13px, 1.75vw, 24px);
-      letter-spacing: 0.05em;
-    }
-    .player .player-time {
-      color: #7d7d7d;
-      font-size: clamp(12px, 1.5vw, 22px);
-      letter-spacing: 0.01em;
-      flex-shrink: 0;
-    }
-    .player .player-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-shrink: 0;
-    }
-    .player .player-volume {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .player .player-volume-btn {
-      border: 0;
-      background: transparent;
-      color: #1b1b1b;
-      font-size: 14px;
-      line-height: 1;
-      cursor: pointer;
-      padding: 0;
-    }
-    .player .player-volume-slider {
-      width: 72px;
-      height: 4px;
-      margin: 0;
-      accent-color: #0f0f0f;
-      cursor: pointer;
-    }
-    .player .player-progress {
-      width: 100%;
-      margin-top: 10px;
-      height: 8px;
-      border: 0;
-      background: #d8d8d8;
-      padding: 0;
-      position: relative;
-      cursor: pointer;
-      display: block;
-    }
-    .player .player-progress-fill {
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 100%;
-      transform-origin: left center;
-      transform: scaleX(0);
-      background: #fde400;
-      pointer-events: none;
-    }
-    .player .player-audio {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-      pointer-events: none;
-    }
-    @media (max-width: 820px) {
-      :root { --player-reserved-height: 152px; }
-      .player .player-btn.player-play {
-        width: 68px;
-        height: 68px;
-        font-size: 28px;
-        margin-top: 0;
-      }
-      .player .player-topline {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 4px;
-      }
-    }
-    @media (max-width: 640px) {
-      .player .player-volume {
-        display: none;
-      }
-    }
-    @media (max-width: 480px) {
-      :root { --player-reserved-height: 172px; }
-      .player { padding: 12px 14px 16px; }
-      .player .player-row { gap: 10px; }
-      .player .player-btn {
-        width: 34px;
-        height: 34px;
-      }
-      .player .player-btn.player-play {
-        width: 56px;
-        height: 56px;
-        font-size: 24px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
   <header class="topbar">
@@ -443,36 +48,38 @@
         <div class="label">Archive 2026</div>
       </div>
       <div id="mix-grid" class="mix-grid">
-        <!-- LCP: mirrors MIXES[0] in app.js; update when the first-listed mix changes -->
         <article class="mix-card" data-static-lcp>
-          <a href="./mix-024.html" style="text-decoration:none;color:inherit;">
+          <a href="./mix-024.html" class="mix-card-link">
             <div class="mix-art">
               <img src="./cover-1600x1600.jpg" srcset="./cover-300x300.jpg 300w, ./cover-800x800.jpg 800w, ./cover-1600x1600.jpg 1600w, ./cover-3000x3000.jpg 3000w" sizes="(max-width: 480px) 100vw, (max-width: 820px) calc(50vw - 48px), (max-width: 1180px) calc(33.33vw - 48px), 360px" alt="WAXMIX 024 artwork" width="1600" height="1600" fetchpriority="high" />
             </div>
           </a>
           <div class="mix-meta">
-            <h3><a href="./mix-024.html" style="color:inherit;text-decoration:none;">WAXMIX 024</a></h3>
+            <h3><a href="./mix-024.html" class="mix-card-link">WAXMIX 024</a></h3>
             <span class="mix-duration">2:15:02</span>
           </div>
           <p class="mix-desc">Elmo studio part 1: deep, rolling house and minimal grooves for a long-form session.</p>
           <button class="play-mix-btn" type="button" data-play-mix-id="mix-024" aria-label="Play WAXMIX 024">
             ▶ Play in player
           </button>
-          <a class="feed-link" href="./mix-024.html" style="width:max-content;">Open mix page</a>
+          <a class="feed-link" href="./mix-024.html">Open mix page</a>
         </article>
       </div>
+      <noscript>
+        <p class="mix-load-error">JavaScript is required to view the archive. Please enable JavaScript and refresh.</p>
+      </noscript>
     </div>
   </section>
 
   <section id="mix-page-shell" class="mix-page-shell" hidden>
     <main id="mix-page" class="wrap">
-      <a class="back" href="./index.html">← Back to all mixes</a>
+      <a class="back" href="./index.html">&#8592; Back to all mixes</a>
       <h1 id="mix-title"></h1>
       <div id="mix-duration" class="meta"></div>
       <img id="mix-art" class="art" alt="" />
       <p id="mix-description"></p>
       <audio id="mix-audio" controls preload="none">
-        <source id="mix-audio-source" src="" type="audio/mpeg" />
+        <source id="mix-audio-source" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
     </main>
@@ -485,16 +92,16 @@
     </div>
   </section>
 
-  <footer class="feed-strip" style="background:#0e0e0e;color:#f6f6f6;">
+  <footer class="feed-strip footer-dark">
     <div class="section-wrap">
       <div class="label">Connect</div>
-      <div style="display:flex;gap:18px;flex-wrap:wrap;">
-        <a class="feed-link" href="https://www.facebook.com/waxhelsinki" target="_blank" rel="noopener noreferrer" style="color:#f6f6f6;border-bottom-color:#fde400;">Facebook</a>
-        <a class="feed-link" href="https://elmosaukko.bandcamp.com" target="_blank" rel="noopener noreferrer" style="color:#f6f6f6;border-bottom-color:#fde400;">Bandcamp</a>
-        <a class="feed-link" href="https://ra.co/dj/elmo" target="_blank" rel="noopener noreferrer" style="color:#f6f6f6;border-bottom-color:#fde400;">Resident Advisor</a>
-        <a class="feed-link" href="https://soundcloud.com/elmo" target="_blank" rel="noopener noreferrer" style="color:#f6f6f6;border-bottom-color:#fde400;">SoundCloud</a>
-        <a class="feed-link" href="https://open.spotify.com/playlist/1P2W1EB123Cu40eadH1QQc?si=HFS-Loo2SK-EzlbRkRbXJw&amp;pi=NN6VdTAXS0Oxb&amp;utm_source=ig&amp;utm_medium=social&amp;utm_content=link_in_bio&amp;fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGntY2_KGiLbre8DDzCKE6ODtSEX9KM-GMv8zXB9OI6SOHVZXgEf6EqA8NYlvk_aem_8JaRzSuoTqC8LvGK18wBbQ&amp;nd=1&amp;dlsi=53ae8f35025e42fb" target="_blank" rel="noopener noreferrer" style="color:#f6f6f6;border-bottom-color:#fde400;">Spotify</a>
-        <a class="feed-link" href="mailto:dekadem@gmail.com" style="color:#f6f6f6;border-bottom-color:#fde400;">EMAIL</a>
+      <div class="footer-links">
+        <a class="feed-link" href="https://www.facebook.com/waxhelsinki" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a class="feed-link" href="https://elmosaukko.bandcamp.com" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+        <a class="feed-link" href="https://ra.co/dj/elmo" target="_blank" rel="noopener noreferrer">Resident Advisor</a>
+        <a class="feed-link" href="https://soundcloud.com/elmo" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+        <a class="feed-link" href="https://open.spotify.com/playlist/1P2W1EB123Cu40eadH1QQc?si=HFS-Loo2SK-EzlbRkRbXJw&amp;pi=NN6VdTAXS0Oxb&amp;utm_source=ig&amp;utm_medium=social&amp;utm_content=link_in_bio&amp;fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGntY2_KGiLbre8DDzCKE6ODtSEX9KM-GMv8zXB9OI6SOHVZXgEf6EqA8NYlvk_aem_8JaRzSuoTqC8LvGK18wBbQ&amp;nd=1&amp;dlsi=53ae8f35025e42fb" target="_blank" rel="noopener noreferrer">Spotify</a>
+        <a class="feed-link" href="mailto:dekadem@gmail.com">EMAIL</a>
       </div>
     </div>
   </footer>
