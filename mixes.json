@@ -1,5 +1,25 @@
 [
   {
+    "id": "mix-026",
+    "title": "WAXMIX 026",
+    "duration": "2:14:13",
+    "description": "Elmo & Konstantin live at Helsinginkatu UG: deep rolling house and late-night minimal pressure.",
+    "audioUrl": "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/Elmo & Konstantin @ Helsinginkatu UG.mp3",
+    "artUrl": "./cover.jpg",
+    "artAlt": "WAXMIX 026 artwork",
+    "audioType": "audio/mpeg"
+  },
+  {
+    "id": "mix-025",
+    "title": "WAXMIX 025",
+    "duration": "1:32:31",
+    "description": "Fresh Wax Helsinki session recorded in April 2026 with deep, rolling grooves and late-night momentum.",
+    "audioUrl": "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-025.mp3",
+    "artUrl": "./cover.jpg",
+    "artAlt": "WAXMIX 025 artwork",
+    "audioType": "audio/mpeg"
+  },
+  {
     "id": "mix-024",
     "title": "WAXMIX 024",
     "duration": "2:15:02",

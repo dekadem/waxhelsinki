@@ -1,8 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
-  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
-  xmlns:content="http://purl.org/rss/1.0/modules/content/"
-  xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
   <channel>
     <title>wax helsinki</title>
     <link>https://waxhelsinki.pages.dev/</link>
@@ -22,15 +19,12 @@
     <itunes:category text="Music" />
     <itunes:image href="https://waxhelsinki.pages.dev/cover.jpg" />
 
-    <item>
+    <item><title>WAXMIX 026</title><description>Elmo &amp; Konstantin live at Helsinginkatu UG: deep rolling house and late-night minimal pressure.</description><pubDate>Tue, 14 Apr 2026 10:16:52 GMT</pubDate><guid isPermaLink="false">wax-helsinki-waxmix-026-20260414101851</guid><enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/Elmo &amp; Konstantin @ Helsinginkatu UG.mp3" length="128902880" type="audio/mpeg" /><itunes:duration>2:14:13</itunes:duration><itunes:explicit>no</itunes:explicit><itunes:episodeType>full</itunes:episodeType><itunes:author>wax helsinki</itunes:author><itunes:summary>Elmo &amp; Konstantin live at Helsinginkatu UG: deep rolling house and late-night minimal pressure.</itunes:summary></item><item><title>WAXMIX 025</title><description>Fresh Wax Helsinki session recorded in April 2026 with deep, rolling grooves and late-night momentum.</description><pubDate>Sun, 12 Apr 2026 14:27:24 GMT</pubDate><guid isPermaLink="false">wax-helsinki-waxmix-025-20260412143024</guid><enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-025.mp3" length="140689388" type="audio/mpeg" /><itunes:duration>1:32:31</itunes:duration><itunes:explicit>no</itunes:explicit><itunes:episodeType>full</itunes:episodeType><itunes:author>wax helsinki</itunes:author><itunes:summary>Fresh Wax Helsinki session recorded in April 2026 with deep, rolling grooves and late-night momentum.</itunes:summary></item><item>
       <title>WAXMIX 024</title>
       <description>Elmo studio part 1: deep, rolling house and minimal grooves for a long-form session.</description>
       <pubDate>Sat, 11 Apr 2026 13:46:49 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-024</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-024.mp3"
-        length="194448717"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-024.mp3" length="194448717" type="audio/mpeg" />
       <itunes:duration>2:15:02</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -43,10 +37,7 @@
       <description>Elmo solo mix: deep house and minimal grooves with warm bass and late-night flow.</description>
       <pubDate>Sat, 11 Apr 2026 09:18:25 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-023</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-023.mp3"
-        length="83209721"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-023.mp3" length="83209721" type="audio/mpeg" />
       <itunes:duration>57:47</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -59,10 +50,7 @@
       <description>Elmo solo session: deep minimal house grooves with crisp percussion and steady club momentum.</description>
       <pubDate>Sat, 11 Apr 2026 09:04:22 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-022</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-022.mp3"
-        length="119531716"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-022.mp3" length="119531716" type="audio/mpeg" />
       <itunes:duration>1:23:00</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -75,10 +63,7 @@
       <description>Elmo &amp; Konstantin live at WAX OFF party in Helsinki: raw, driving house pressure and late-night energy.</description>
       <pubDate>Sat, 11 Apr 2026 08:50:44 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-021</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/wax-off-helsinki-2013.mp3"
-        length="183822732"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/wax-off-helsinki-2013.mp3" length="183822732" type="audio/mpeg" />
       <itunes:duration>2:07:39</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -91,10 +76,7 @@
       <description>Extended minimal house set by Elmo: hypnotic loops, deep bass pressure, and steady late-night drive.</description>
       <pubDate>Sat, 11 Apr 2026 08:35:36 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-020</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-020.mp3"
-        length="156571264"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/waxmix-020.mp3" length="156571264" type="audio/mpeg" />
       <itunes:duration>2:10:28</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -107,10 +89,7 @@
       <description>Minimal house session by Elmo: tight grooves, rolling bass, and late-night club momentum.</description>
       <pubDate>Fri, 10 Apr 2026 17:28:53 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-019</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/elmo-mix-wappu-aatto-2013.mp3"
-        length="123696691"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/elmo-mix-wappu-aatto-2013.mp3" length="123696691" type="audio/mpeg" />
       <itunes:duration>1:43:04</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -123,10 +102,7 @@
       <description>Chill-out summer blend by Elmo: laidback soul, mellow hiphop, and easy sunset grooves.</description>
       <pubDate>Fri, 10 Apr 2026 16:05:29 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-018</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/letkee-kesa-2008-mix.mp3"
-        length="51420052"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/letkee-kesa-2008-mix.mp3" length="51420052" type="audio/mpeg" />
       <itunes:duration>53:33</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -139,10 +115,7 @@
       <description>Elmo house vibes: warm grooves, rolling basslines, and late-night floor energy.</description>
       <pubDate>Fri, 10 Apr 2026 14:27:36 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-017</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/stelmo-2008-10-11.mp3"
-        length="108106072"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/stelmo-2008-10-11.mp3" length="108106072" type="audio/mpeg" />
       <itunes:duration>1:15:03</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -155,10 +128,7 @@
       <description>Elmo with a stripped-back minimal house flow and late-night groove tension.</description>
       <pubDate>Fri, 10 Apr 2026 12:37:21 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-016</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/dj-set-2008-11-11.mp3"
-        length="102323809"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/dj-set-2008-11-11.mp3" length="102323809" type="audio/mpeg" />
       <itunes:duration>1:11:03</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -171,10 +141,7 @@
       <description>Elmo live at Bar Loop: a warm, deep house ride with late-night swing.</description>
       <pubDate>Fri, 10 Apr 2026 12:32:06 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-015</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/bar-loop-2008-06-11-pt-1-2.mp3"
-        length="61712861"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/bar-loop-2008-06-11-pt-1-2.mp3" length="61712861" type="audio/mpeg" />
       <itunes:duration>42:51</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -187,10 +154,7 @@
       <description>Elmo &amp; Konstantin live at Bar Loop.</description>
       <pubDate>Fri, 10 Apr 2026 12:19:49 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-014</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/live-bar-loop-2008-06-11.mp3"
-        length="77191377"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/live-bar-loop-2008-06-11.mp3" length="77191377" type="audio/mpeg" />
       <itunes:duration>53:36</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -203,10 +167,7 @@
       <description>Elmo &amp; Konstantin at Loop.</description>
       <pubDate>Fri, 10 Apr 2026 11:46:02 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-013</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/dj-set-loop-2010-05-28.mp3"
-        length="95960921"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/dj-set-loop-2010-05-28.mp3" length="95960921" type="audio/mpeg" />
       <itunes:duration>1:19:58</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -219,10 +180,7 @@
       <description>Elmo &amp; Konstantin at Loop: a chilled, late-night techno house drift.</description>
       <pubDate>Fri, 10 Apr 2026 11:38:05 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-012</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/line-2009-11-06-loop.mp3"
-        length="113827106"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/line-2009-11-06-loop.mp3" length="113827106" type="audio/mpeg" />
       <itunes:duration>1:34:51</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -235,10 +193,7 @@
       <description>At Beatroot by Elmo &amp; Konstantin: deep warehouse techno house session.</description>
       <pubDate>Fri, 10 Apr 2026 11:16:34 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-011</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/at-beatroot-2008-11-15.mp3"
-        length="149849985"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/at-beatroot-2008-11-15.mp3" length="149849985" type="audio/mpeg" />
       <itunes:duration>2:04:52</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -251,10 +206,7 @@
       <description>Elmo &amp; Konstantin live at Beatroot: rolling techno house with raw club energy.</description>
       <pubDate>Fri, 10 Apr 2026 10:21:07 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-010</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/beatroot_2010-03-27.m4a"
-        length="197827416"
-        type="audio/mp4" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/beatroot_2010-03-27.m4a" length="197827416" type="audio/mp4" />
       <itunes:duration>1:40:12</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -267,10 +219,7 @@
       <description>Studio Mix p3 by Elmo &amp; Konstantin: punchy house rollers and deep techno flow.</description>
       <pubDate>Fri, 10 Apr 2026 10:10:15 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-009</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p3.mp3"
-        length="117264751"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p3.mp3" length="117264751" type="audio/mpeg" />
       <itunes:duration>48:51</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -283,10 +232,7 @@
       <description>Studio Mix p2 by Elmo &amp; Konstantin: long-form techno house pressure and dubby textures.</description>
       <pubDate>Fri, 10 Apr 2026 10:09:15 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-008</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p2.mp3"
-        length="324164996"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p2.mp3" length="324164996" type="audio/mpeg" />
       <itunes:duration>2:15:04</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -299,10 +245,7 @@
       <description>Studio Mix p1 by Elmo &amp; Konstantin: deep techno and house pressure.</description>
       <pubDate>Fri, 10 Apr 2026 09:59:10 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-007</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p1.mp3"
-        length="229834743"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/studiomix-2014-12-19-p1.mp3" length="229834743" type="audio/mpeg" />
       <itunes:duration>1:35:46</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -315,10 +258,7 @@
       <description>Driving late-night techno house with rolling drums and hypnotic bass by Elmo.</description>
       <pubDate>Fri, 10 Apr 2026 09:41:51 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-006</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/6.mp3"
-        length="87576642"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/6.mp3" length="87576642" type="audio/mpeg" />
       <itunes:duration>1:12:58</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -331,10 +271,7 @@
       <description>Warm, groove-led house cuts with crisp techno edges and swing by Elmo.</description>
       <pubDate>Fri, 10 Apr 2026 09:39:46 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-005</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/5.mp3"
-        length="50315750"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/5.mp3" length="50315750" type="audio/mpeg" />
       <itunes:duration>52:24</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -347,10 +284,7 @@
       <description>Long-form warehouse trip through deep techno and minimal house by Elmo &amp; Konstantin.</description>
       <pubDate>Fri, 10 Apr 2026 09:24:50 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-004</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/4.mp3"
-        length="194481666"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/4.mp3" length="194481666" type="audio/mpeg" />
       <itunes:duration>2:15:03</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -363,10 +297,7 @@
       <description>Dark, percussive techno house journey with dubbed textures by Elmo &amp; Konstantin.</description>
       <pubDate>Fri, 10 Apr 2026 09:15:54 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-003</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/3.mp3"
-        length="324164996"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/3.mp3" length="324164996" type="audio/mpeg" />
       <itunes:duration>2:15:04</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -379,10 +310,7 @@
       <description>Hypnotic techno house blend with soulful chords and heads-down energy by Elmo &amp; Konstantin.</description>
       <pubDate>Fri, 10 Apr 2026 08:20:04 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-002</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/2.mp3"
-        length="117264751"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/2.mp3" length="117264751" type="audio/mpeg" />
       <itunes:duration>48:51</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
@@ -395,10 +323,7 @@
       <description>Foundational Wax Helsinki set: classic house rhythms and raw techno pulse by Elmo.</description>
       <pubDate>Fri, 10 Apr 2026 07:49:47 GMT</pubDate>
       <guid isPermaLink="false">wax-helsinki-mix-001</guid>
-      <enclosure
-        url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/1.mp3"
-        length="66356865"
-        type="audio/mpeg" />
+      <enclosure url="https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/1.mp3" length="66356865" type="audio/mpeg" />
       <itunes:duration>55:17</itunes:duration>
       <itunes:explicit>no</itunes:explicit>
       <itunes:episodeType>full</itunes:episodeType>
