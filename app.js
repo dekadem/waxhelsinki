@@ -94,7 +94,7 @@ function mixCardHtml(mix, fetchPriority) {
         </div>
         <p class="mix-desc">${safeDescription}</p>
         <button class="play-mix-btn" type="button" data-play-mix-id="${escapeHtml(mix.id)}" aria-label="Play ${safeTitle}">
-          ▶ Play in player
+          ▶ Play
         </button>
         <a class="feed-link" href="${safeHref}">Open mix page</a>
       </article>
@@ -235,9 +235,7 @@ function updatePlayerUi() {
   }
   if (volumeButton) {
     const effectiveVolume = audio.muted ? 0 : Number(audio.volume) || 0;
-    const icon = effectiveVolume <= 0 ? "🔇" : effectiveVolume < 0.5 ? "🔉" : "🔊";
     const label = effectiveVolume <= 0 ? "Unmute audio" : "Mute audio";
-    volumeButton.textContent = icon;
     volumeButton.setAttribute("aria-label", label);
   }
 }
@@ -264,7 +262,6 @@ function ensureGlobalPlayer() {
             <div class="player-right">
               <span class="player-time">0:00 / --:--</span>
               <div class="player-volume">
-                <button class="player-volume-btn" type="button" aria-label="Mute audio">🔊</button>
                 <input class="player-volume-slider" type="range" min="0" max="100" step="1" value="100" aria-label="Volume" />
               </div>
             </div>
@@ -639,7 +636,7 @@ function renderMixPageById(mixId) {
   }
   if (playBtn) {
     playBtn.setAttribute("data-play-mix-id", mix.id);
-    playBtn.textContent = "▶ Play in player";
+    playBtn.textContent = "▶ Play";
     playBtn.setAttribute("aria-label", `Play ${mix.title}`);
   }
   renderMixPageNavigation(mixId);
