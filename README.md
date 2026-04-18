@@ -45,7 +45,7 @@ What this does automatically:
 ## Local dev server
 
 ```bash
-python3 scripts/build.py && npx wrangler@4.81.1 pages dev
+python3 scripts/build.py && npx wrangler@4.83.0 pages dev
 ```
 
 This serves the site at `http://localhost:8788`. Edits to `app.js`, `styles.css`, and `index.html` are live on refresh.
@@ -70,6 +70,6 @@ Run this after editing `mixes.json` or `_template/mix.html`.
 
 ## Requirements
 
-- Wrangler auth is already active (`npx wrangler@4.81.1 whoami`)
+- Wrangler auth is already active (`npx wrangler@4.83.0 whoami`)
 - R2 bucket exists and is public: `waxhelsinki-audio`
 - `ffprobe`, `python3`, and `xmllint` installed

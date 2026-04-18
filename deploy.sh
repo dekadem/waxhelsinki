@@ -39,4 +39,4 @@ eval "$NULLGLOB_STATE"
 cp -R imgs dist/
 
 echo "-> Deploying to Cloudflare Pages"
-npx wrangler@4.81.1 pages deploy dist --project-name waxhelsinki
+npx wrangler@4.83.0 pages deploy dist --project-name waxhelsinki

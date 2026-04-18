@@ -48,7 +48,7 @@ if rg -q "${AUDIO_BASENAME}" "./feed.xml"; then
 fi
 
 echo "-> Getting R2 public URL"
-R2_DEV_URL="$(npx wrangler@4.81.1 r2 bucket dev-url get "$AUDIO_BUCKET" | rg -o "https://[^']+\\.r2\\.dev" -m 1)"
+R2_DEV_URL="$(npx wrangler@4.83.0 r2 bucket dev-url get "$AUDIO_BUCKET" | rg -o "https://[^']+\\.r2\\.dev" -m 1)"
 if [ -z "$R2_DEV_URL" ]; then
   echo "Could not resolve R2 dev URL for bucket $AUDIO_BUCKET"
   exit 1
@@ -56,7 +56,7 @@ fi
 AUDIO_URL="${R2_DEV_URL}/${AUDIO_BASENAME}"
 
 echo "-> Uploading $AUDIO_BASENAME to R2"
-npx wrangler@4.81.1 r2 object put "${AUDIO_BUCKET}/${AUDIO_BASENAME}" \
+npx wrangler@4.83.0 r2 object put "${AUDIO_BUCKET}/${AUDIO_BASENAME}" \
   --file "$MP3_FILE" \
   --content-type audio/mpeg \
   --cache-control "public, max-age=31536000, immutable" \
