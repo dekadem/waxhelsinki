@@ -103,7 +103,8 @@ function mixCardHtml(mix, fetchPriority) {
 
 let MIXES = [];
 
-const PLAYER_STATE_KEY = "waxhelsinki-player-state-v1";
+const PLAYER_STATE_KEY = "waxhelsinki-player-state-v2";
+const PLAYER_STATE_LEGACY_KEY = "waxhelsinki-player-state-v1";
 let globalPlayer = null;
 
 function throttle(fn, wait) {
@@ -177,9 +178,24 @@ function formatTime(totalSeconds) {
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
-function readPlayerState() {
+function getStorageCandidates() {
+  const stores = [];
   try {
-    const raw = sessionStorage.getItem(PLAYER_STATE_KEY);
+    if (typeof localStorage !== "undefined") stores.push(localStorage);
+  } catch {
+    // ignore unavailable storage
+  }
+  try {
+    if (typeof sessionStorage !== "undefined") stores.push(sessionStorage);
+  } catch {
+    // ignore unavailable storage
+  }
+  return stores;
+}
+
+function readPlayerStateFromStorage(storage, key) {
+  try {
+    const raw = storage.getItem(key);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return null;
@@ -197,6 +213,17 @@ function readPlayerState() {
   }
 }
 
+function readPlayerState() {
+  const storages = getStorageCandidates();
+  for (const storage of storages) {
+    const currentState = readPlayerStateFromStorage(storage, PLAYER_STATE_KEY);
+    if (currentState) return currentState;
+    const legacyState = readPlayerStateFromStorage(storage, PLAYER_STATE_LEGACY_KEY);
+    if (legacyState) return legacyState;
+  }
+  return null;
+}
+
 function writePlayerState() {
   if (!globalPlayer?.audio) return;
   const state = {
@@ -204,10 +231,13 @@ function writePlayerState() {
     time: Number(globalPlayer.audio.currentTime || 0),
     wasPlaying: !globalPlayer.audio.paused && !globalPlayer.audio.ended,
   };
-  try {
-    sessionStorage.setItem(PLAYER_STATE_KEY, JSON.stringify(state));
-  } catch {
-    // ignore storage failures
+  const payload = JSON.stringify(state);
+  for (const storage of getStorageCandidates()) {
+    try {
+      storage.setItem(PLAYER_STATE_KEY, payload);
+    } catch {
+      // ignore storage failures
+    }
   }
 }
 
@@ -413,6 +443,13 @@ function ensureGlobalPlayer() {
   audio.addEventListener("pause", writePlayerState);
   audio.addEventListener("play", writePlayerState);
   audio.addEventListener("loadedmetadata", writePlayerState);
+  window.addEventListener("pagehide", writePlayerState);
+  window.addEventListener("beforeunload", writePlayerState);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      writePlayerState();
+    }
+  });
 
   updatePlayerUi();
 
