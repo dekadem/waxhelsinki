@@ -1,5 +1,15 @@
 [
   {
+    "id": "mix-027",
+    "title": "WAXMIX 027",
+    "duration": "3:00:00",
+    "description": "A live three-hour transmission from Aaniwalli, moving from deep pressure into late-afternoon lift.",
+    "audioUrl": "https://pub-49beae77ee4c444ba04415fd545073df.r2.dev/Ääniwalli 2013-03-05 klo 15-18.mp3",
+    "artUrl": "./cover.jpg",
+    "artAlt": "WAXMIX 027 artwork",
+    "audioType": "audio/mpeg"
+  },
+  {
     "id": "mix-026",
     "title": "WAXMIX 026",
     "duration": "2:14:13",
