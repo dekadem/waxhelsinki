@@ -24,8 +24,16 @@ function escapeHtml(value) {
 function sanitizeUrl(value) {
   const url = String(value ?? "").trim();
   if (!url) return "";
-  if (/^https?:\/\/[^\s]+$/i.test(url)) return encodeURI(url);
-  if (/^(?:\.\/|\/)[^\s]+$/.test(url)) return encodeURI(url);
+  if (/^https?:\/\//i.test(url)) {
+    try {
+      const parsed = new URL(url);
+      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return "";
+      return encodeURI(url);
+    } catch {
+      return "";
+    }
+  }
+  if (/^(?:\.\/|\/)/.test(url)) return encodeURI(url);
   return "";
 }
 
